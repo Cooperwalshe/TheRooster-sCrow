@@ -1106,8 +1106,7 @@ function showPage(name) {
 }
 
 // CONFIGURATION
-const BEEHIIV_API_KEY = '10Op5lJWxXevggGtzma0r8HjGt5aJJgsLl01wZngqG92oprJm1Ip9gDkddpfDx9d';
-const BEEHIIV_PUB_ID  = 'pub_ce0cf159-44e6-440a-8731-3835b4a66f57';
+const SUBSCRIBE_URL = 'https://roosters-subscribe.cwalshe21.workers.dev';
 const PAYMENT_LINKS = {
   monthly: 'https://buy.stripe.com/9B6eVddDDaF38qv9kt1ck00',
   annual:  'https://buy.stripe.com/6oU28rczzeVj6ingMV1ck01'
@@ -1197,12 +1196,9 @@ async function handleSignup() {
 }
 
 async function subscribeToBeehiiv({ name, email, plan, categories }) {
-  var res = await fetch('https://api.beehiiv.com/v2/publications/' + BEEHIIV_PUB_ID + '/subscriptions', {
+  var res = await fetch(SUBSCRIBE_URL, {
     method: 'POST',
-    headers: {
-      'Content-Type':  'application/json',
-      'Authorization': 'Bearer ' + BEEHIIV_API_KEY
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       email:               email,
       first_name:          name,
