@@ -1172,7 +1172,7 @@ async function handleSignup() {
   document.getElementById('su-error').style.display = 'none';
 
   if (!name)                                         { showSuError('Please enter your name.');                                                   return; }
-  if (!email || !email.includes('@'))                { showSuError('Please enter a valid email address.');                                       return; }
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showSuError('Please enter a valid email address.');                           return; }
   if (checked.length === 0)                          { showSuError('Please choose at least one category.');                                      return; }
   if (currentPlan === 'free' && checked.length > 1) { showSuError('The free plan allows only one category — please pick your favourite.');      return; }
 
@@ -1211,7 +1211,6 @@ async function subscribeToBeehiiv({ name, email, plan, categories }) {
     })
   });
   var data = await res.json();
-  console.log('Beehiiv response:', res.status, JSON.stringify(data));
   if (!res.ok) throw new Error(data.message || 'Signup failed — please try again.');
   return data;
 }
