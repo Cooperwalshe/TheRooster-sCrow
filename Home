@@ -1,0 +1,1271 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Rooster's Crow — Your Morning Briefing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<script src="https://js.stripe.com/v3/"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --cream: #faf7f2;
+  --cream-2: #f0ebe0;
+  --cream-3: #e0d8c8;
+  --cream-4: #c8bda8;
+  --ink: #1a1208;
+  --ink-2: #2e2415;
+  --ink-3: #5c4d38;
+  --ink-4: #8a7a65;
+  --rooster: #a81e10;
+  --rooster-light: #fcecea;
+  --rooster-mid: #c22416;
+  --gold: #8a6200;
+  --gold-light: #fdf0c8;
+  --green: #1a4f32;
+  --green-light: #e4f0e8;
+  --rule: #c8bda8;
+  --serif: 'Playfair Display', Georgia, serif;
+  --body-serif: 'Lora', Georgia, serif;
+  --sans: 'Inter', system-ui, sans-serif;
+  --max: 1100px;
+}
+
+html { scroll-behavior: smooth; }
+body { font-family: var(--body-serif); background: var(--cream); color: var(--ink); line-height: 1.7; font-size: 16px; }
+
+/* NAV */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(26,18,8,0.97); backdrop-filter: blur(6px);
+  border-bottom: 1px solid #3a2e1e;
+  padding: 0 24px;
+}
+.nav-inner {
+  max-width: var(--max); margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 64px;
+}
+.nav-logo {
+  font-family: var(--serif); font-size: 19px; color: #faf7f2;
+  text-decoration: none; letter-spacing: -0.2px; display: flex; align-items: center; gap: 8px;
+}
+.nav-logo .rooster-icon { font-size: 22px; }
+.nav-logo .red { color: #f4806e; }
+.nav-links { display: flex; gap: 4px; align-items: center; }
+.nav-links a {
+  font-family: var(--sans); font-size: 14px; font-weight: 500; color: rgba(250,247,242,0.7);
+  text-decoration: none; padding: 6px 14px; border-radius: 6px;
+  transition: background 0.15s, color 0.15s;
+}
+.nav-links a:hover { background: rgba(255,255,255,0.08); color: #faf7f2; }
+.nav-links a.active { color: #f4806e; }
+.btn-nav {
+  background: var(--rooster) !important; color: white !important;
+  border-radius: 6px; padding: 7px 18px !important; font-weight: 600 !important;
+}
+.btn-nav:hover { background: var(--rooster-mid) !important; }
+
+/* PAGES */
+.page { display: none; }
+.page.active { display: block; }
+
+/* SECTION */
+.section { padding: 80px 24px; }
+.section-inner { max-width: var(--max); margin: 0 auto; }
+
+/* SECTION LABELS */
+.eyebrow {
+  font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--rooster); margin-bottom: 10px; display: block;
+}
+.section-title {
+  font-family: var(--serif); font-size: clamp(26px, 4vw, 42px);
+  line-height: 1.15; letter-spacing: -0.3px; color: var(--ink); margin-bottom: 16px;
+}
+.section-desc { font-size: 17px; color: var(--ink-3); line-height: 1.75; max-width: 540px; }
+
+/* ════════════════════════════ HOME PAGE ════════════════════════════ */
+
+/* HERO */
+.hero {
+  background: var(--ink);
+  border-bottom: 3px solid var(--rooster);
+  padding: 80px 24px 72px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '🐓';
+  position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
+  font-size: 200px; opacity: 0.06; pointer-events: none; line-height: 1;
+}
+.hero-inner { max-width: 780px; margin: 0 auto; position: relative; }
+.hero-time {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--sans); font-size: 13px; font-weight: 600;
+  color: #e8c84a; background: rgba(232,200,74,0.12);
+  border: 1px solid rgba(232,200,74,0.35); padding: 5px 14px; border-radius: 20px; margin-bottom: 28px;
+}
+.hero h1 {
+  font-family: var(--serif); font-size: clamp(38px, 6vw, 68px);
+  line-height: 1.1; letter-spacing: -1px; color: #faf7f2; margin-bottom: 20px;
+}
+.hero h1 em { font-style: italic; color: #f4806e; }
+.hero-sub {
+  font-size: 18px; line-height: 1.75; color: rgba(250,247,242,0.65);
+  max-width: 560px; margin: 0 auto 36px;
+}
+.hero-cta-row { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; align-items: center; }
+.btn-primary {
+  background: var(--rooster); color: white;
+  border: none; border-radius: 8px; padding: 14px 30px;
+  font-family: var(--sans); font-size: 15px; font-weight: 600; cursor: pointer;
+  transition: background 0.15s, transform 0.1s; text-decoration: none; display: inline-block;
+}
+.btn-primary:hover { background: var(--rooster-mid); transform: translateY(-1px); }
+.btn-outline {
+  background: transparent; color: rgba(250,247,242,0.8);
+  border: 1.5px solid rgba(250,247,242,0.3); border-radius: 8px; padding: 13px 24px;
+  font-family: var(--sans); font-size: 15px; font-weight: 500; cursor: pointer;
+  text-decoration: none; display: inline-block;
+  transition: border-color 0.15s, color 0.15s;
+}
+.btn-outline:hover { border-color: rgba(250,247,242,0.6); color: #faf7f2; }
+.hero-tagline {
+  margin-top: 40px; padding-top: 32px; border-top: 1px solid rgba(250,247,242,0.12);
+  font-family: var(--sans); font-size: 13px; color: rgba(250,247,242,0.4); letter-spacing: 0.3px;
+}
+.hero-tagline strong { color: rgba(250,247,242,0.65); font-weight: 600; }
+
+/* INTRO STRIP */
+.intro-strip {
+  background: var(--rooster); color: white; padding: 20px 24px; text-align: center;
+}
+.intro-strip p { font-family: var(--sans); font-size: 15px; font-weight: 500; opacity: 0.95; }
+.intro-strip a { color: white; font-weight: 600; text-decoration: underline; }
+
+/* WHAT YOU GET */
+.what-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 0; border: 1.5px solid var(--rule); border-radius: 16px; overflow: hidden;
+  margin-top: 48px;
+}
+.what-item {
+  padding: 32px 28px; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+  background: white;
+}
+.what-item:nth-child(2n) { border-right: none; }
+.what-item:nth-last-child(-n+2) { border-bottom: none; }
+.what-icon { font-size: 28px; margin-bottom: 12px; display: block; }
+.what-title { font-family: var(--serif); font-size: 20px; color: var(--ink); margin-bottom: 8px; }
+.what-desc { font-family: var(--sans); font-size: 14px; color: var(--ink-3); line-height: 1.6; }
+
+/* HOW ROW */
+.how-row { display: flex; gap: 0; margin-top: 48px; }
+.how-step { flex: 1; padding: 32px 24px; position: relative; }
+.how-step:not(:last-child)::after {
+  content: '→'; position: absolute; right: -8px; top: 50%; transform: translateY(-50%);
+  font-size: 20px; color: var(--cream-4); font-family: var(--sans);
+}
+.how-num {
+  font-family: var(--serif); font-size: 44px; color: var(--ink-3);
+  line-height: 1; margin-bottom: 12px; display: block;
+}
+.how-step h3 { font-family: var(--sans); font-size: 16px; font-weight: 600; color: var(--ink); margin-bottom: 8px; }
+.how-step p { font-family: var(--sans); font-size: 14px; color: var(--ink-3); line-height: 1.6; }
+
+/* CATEGORIES */
+.cat-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 16px; margin-top: 48px;
+}
+.cat-card {
+  background: white; border: 1.5px solid var(--rule); border-radius: 12px;
+  padding: 24px 20px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.cat-card:hover { border-color: var(--rooster); box-shadow: 0 4px 16px rgba(192,57,43,0.08); }
+.cat-icon { font-size: 26px; margin-bottom: 10px; display: block; }
+.cat-name { font-family: var(--serif); font-size: 19px; color: var(--ink); margin-bottom: 6px; }
+.cat-blurb { font-family: var(--sans); font-size: 13px; color: var(--ink-3); line-height: 1.55; }
+
+/* MORNING CARD preview */
+.morning-preview {
+  background: var(--cream-2); border: 1.5px solid var(--rule); border-radius: 16px;
+  padding: 36px 32px; margin-top: 48px; max-width: 620px;
+}
+.morning-preview .mp-from {
+  font-family: var(--sans); font-size: 12px; color: var(--ink-4); margin-bottom: 4px;
+  display: flex; align-items: center; gap: 6px;
+}
+.morning-preview .mp-subject {
+  font-family: var(--serif); font-size: 22px; color: var(--ink); margin-bottom: 16px; line-height: 1.3;
+}
+.morning-preview .mp-body {
+  font-family: var(--sans); font-size: 14px; color: var(--ink-2); line-height: 1.7;
+}
+.mp-tag {
+  display: inline-block; font-family: var(--sans); font-size: 11px; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase; padding: 3px 10px; border-radius: 20px;
+  margin-bottom: 12px;
+}
+.mp-tag.markets { background: #e8f5e9; color: #2e6b4f; }
+.mp-tag.politics { background: #e8eaf6; color: #3949ab; }
+
+/* BOTTOM CTA */
+.bottom-cta {
+  background: var(--ink); color: var(--cream); padding: 80px 24px; text-align: center;
+}
+.bottom-cta .section-title { color: var(--cream); margin: 0 auto 16px; }
+.bottom-cta p { font-family: var(--sans); font-size: 17px; color: rgba(253,248,240,0.65); margin-bottom: 32px; }
+.bottom-cta .btn-primary { background: var(--rooster); }
+.bottom-cta .btn-primary:hover { background: var(--rooster-mid); }
+
+/* ════════════════════════════ PRICING PAGE ════════════════════════════ */
+
+.pricing-hero {
+  background: var(--cream-2); border-bottom: 1px solid var(--rule);
+  padding: 80px 24px 60px; text-align: center;
+}
+.pricing-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px; margin-top: 56px; align-items: start;
+}
+.plan-card {
+  background: white; border: 1.5px solid var(--rule); border-radius: 16px;
+  padding: 36px 28px; position: relative; overflow: hidden;
+  transition: box-shadow 0.2s;
+}
+.plan-card:hover { box-shadow: 0 8px 32px rgba(44,36,22,0.08); }
+.plan-card.featured { border: 2.5px solid var(--rooster); }
+.plan-badge {
+  position: absolute; top: 20px; right: 20px;
+  background: var(--rooster); color: white;
+  font-family: var(--sans); font-size: 10px; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase; padding: 4px 10px; border-radius: 20px;
+}
+.plan-name { font-family: var(--sans); font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--ink-3); margin-bottom: 10px; }
+.plan-price-row { display: flex; align-items: baseline; gap: 4px; margin-bottom: 6px; }
+.plan-price { font-family: var(--serif); font-size: 52px; line-height: 1; color: var(--ink); }
+.plan-per { font-family: var(--sans); font-size: 14px; color: var(--ink-3); }
+.plan-tagline { font-family: var(--sans); font-size: 14px; color: var(--ink-3); margin-bottom: 24px; line-height: 1.5; }
+.plan-divider { border: none; border-top: 1px solid var(--rule); margin: 20px 0; }
+.plan-features { list-style: none; display: flex; flex-direction: column; gap: 11px; margin-bottom: 28px; }
+.plan-features li { font-family: var(--sans); font-size: 14px; color: var(--ink-2); display: flex; align-items: flex-start; gap: 10px; }
+.plan-check { color: var(--green); flex-shrink: 0; margin-top: 2px; font-weight: 700; }
+.plan-btn {
+  width: 100%; padding: 13px; border-radius: 8px;
+  font-family: var(--sans); font-size: 15px; font-weight: 600; cursor: pointer;
+  border: none; transition: background 0.15s, transform 0.1s;
+}
+.plan-btn:hover { transform: translateY(-1px); }
+.plan-btn.primary { background: var(--rooster); color: white; }
+.plan-btn.primary:hover { background: var(--rooster-mid); }
+.plan-btn.secondary { background: var(--cream-2); color: var(--ink); border: 1.5px solid var(--rule); }
+.plan-btn.secondary:hover { background: var(--cream-3); }
+.savings-badge {
+  position: absolute; top: 20px; right: 20px;
+  font-family: var(--sans); font-size: 10px; font-weight: 700;
+  letter-spacing: 1px; text-transform: uppercase;
+  color: #5a3e00; background: var(--gold-light); border: 1px solid #d4b060;
+  padding: 4px 10px; border-radius: 20px;
+}
+
+.deactivate-box {
+  background: #fff5f5; border: 1.5px solid #fcd5d0; border-radius: 12px;
+  padding: 28px; margin-top: 48px;
+}
+.deactivate-box h3 { font-family: var(--sans); font-size: 16px; font-weight: 600; color: #991b1b; margin-bottom: 8px; }
+.deactivate-box p { font-family: var(--sans); font-size: 14px; color: #7f1d1d; margin-bottom: 16px; line-height: 1.6; }
+.btn-deactivate {
+  background: white; color: #dc2626; border: 1.5px solid #fca5a5;
+  padding: 10px 20px; border-radius: 8px; font-family: var(--sans); font-size: 14px; font-weight: 600;
+  cursor: pointer; transition: background 0.15s;
+}
+.btn-deactivate:hover { background: #fef2f2; }
+
+/* ════════════════════════════ EXAMPLE EMAIL PAGE ════════════════════════════ */
+
+.email-page-header {
+  background: var(--cream-2); border-bottom: 2px solid var(--rule); padding: 56px 24px 48px;
+}
+.email-wrap { max-width: 640px; margin: 0 auto; }
+.email-chrome {
+  background: white; border: 1.5px solid var(--rule); border-radius: 16px;
+  overflow: hidden; margin-top: 40px;
+}
+.email-chrome-bar {
+  background: var(--cream-2); border-bottom: 1px solid var(--rule);
+  padding: 14px 20px; display: flex; flex-direction: column; gap: 4px;
+}
+.email-chrome-row {
+  display: flex; gap: 8px; align-items: baseline;
+  font-family: var(--sans); font-size: 13px;
+}
+.email-chrome-label { color: var(--ink-4); width: 52px; flex-shrink: 0; }
+.email-chrome-val { color: var(--ink-2); }
+.email-chrome-subject { font-weight: 600; color: var(--ink); font-size: 15px; }
+.email-body { padding: 0; }
+
+/* Email interior */
+.em-header {
+  background: var(--ink); padding: 32px 32px 24px; text-align: center;
+  border-bottom: 4px solid var(--rooster);
+}
+.em-masthead {
+  font-family: var(--serif); font-size: 28px; color: var(--cream); letter-spacing: -0.3px;
+}
+.em-masthead .red { color: #f4a89a; }
+.em-date {
+  font-family: var(--sans); font-size: 12px; color: rgba(253,248,240,0.5);
+  margin-top: 4px; letter-spacing: 1px; text-transform: uppercase;
+}
+.em-delivery {
+  font-family: var(--sans); font-size: 11px; color: rgba(253,248,240,0.4); margin-top: 6px;
+}
+.em-body { padding: 0 32px 32px; }
+.em-greeting {
+  font-family: var(--body-serif); font-size: 15px; color: var(--ink-3);
+  padding: 20px 0 24px; border-bottom: 1px solid var(--rule);
+  line-height: 1.7;
+}
+.em-section { padding: 24px 0; border-bottom: 1px solid var(--rule); }
+.em-section:last-child { border-bottom: none; padding-bottom: 0; }
+.em-section-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; padding: 4px 12px; border-radius: 20px; margin-bottom: 14px;
+}
+.tag-markets   { background: #1a4f32; color: #a8e6c4; }
+.tag-business  { background: #1e3a6e; color: #a8c4f0; }
+.tag-politics  { background: #6e1a0e; color: #f4a898; }
+.tag-sports    { background: #3d1a6e; color: #c8a8f0; }
+.tag-culture   { background: #6e1a42; color: #f0a8cc; }
+.tag-science   { background: #0e4a5a; color: #a8dce8; }
+.em-headline {
+  font-family: var(--serif); font-size: 20px; color: var(--ink);
+  line-height: 1.3; margin-bottom: 10px;
+}
+.em-text {
+  font-family: var(--sans); font-size: 14px; color: var(--ink-2);
+  line-height: 1.75; margin-bottom: 10px;
+}
+.em-bullets { list-style: none; margin: 10px 0; display: flex; flex-direction: column; gap: 6px; }
+.em-bullets li {
+  font-family: var(--sans); font-size: 13px; color: var(--ink-2);
+  padding-left: 18px; position: relative; line-height: 1.55;
+}
+.em-bullets li::before { content: '·'; position: absolute; left: 6px; color: var(--ink-4); font-weight: 700; }
+.em-read-more {
+  font-family: var(--sans); font-size: 12px; font-weight: 600; color: var(--rooster);
+  text-decoration: none; display: inline-block; margin-top: 8px;
+}
+.em-footer {
+  background: var(--cream-2); border-top: 1px solid var(--rule); padding: 20px 32px;
+  text-align: center;
+}
+.em-footer p {
+  font-family: var(--sans); font-size: 12px; color: var(--ink-4); line-height: 1.6;
+}
+.em-footer a { color: var(--rooster); text-decoration: none; }
+
+/* ════════════════════════════ ABOUT PAGE ════════════════════════════ */
+
+.about-hero { background: var(--cream-2); border-bottom: 1px solid var(--rule); padding: 80px 24px 64px; }
+.about-body { max-width: 660px; }
+.about-body p { font-size: 17px; color: var(--ink-2); line-height: 1.85; margin-bottom: 24px; }
+.about-body p.lede { font-family: var(--serif); font-size: 22px; color: var(--ink); line-height: 1.5; }
+.pull-quote {
+  border-left: 3px solid var(--rooster); padding: 6px 24px;
+  margin: 40px 0; font-family: var(--serif); font-size: 22px; line-height: 1.45;
+  color: var(--ink-2); font-style: italic;
+}
+.team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 32px; margin-top: 40px; }
+.team-card { }
+.team-avatar {
+  width: 60px; height: 60px; border-radius: 50%;
+  background: var(--cream-3); display: flex; align-items: center; justify-content: center;
+  font-family: var(--serif); font-size: 20px; color: var(--ink-3); margin-bottom: 14px;
+}
+.team-name { font-family: var(--sans); font-size: 16px; font-weight: 600; color: var(--ink); margin-bottom: 2px; }
+.team-role { font-family: var(--sans); font-size: 13px; color: var(--ink-4); margin-bottom: 10px; }
+.team-bio { font-family: var(--sans); font-size: 14px; color: var(--ink-2); line-height: 1.65; }
+
+/* FOOTER */
+footer {
+  background: var(--ink); color: rgba(253,248,240,0.55);
+  padding: 56px 24px 24px;
+}
+.footer-inner { max-width: var(--max); margin: 0 auto; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 36px; }
+.footer-brand .fl { font-family: var(--serif); font-size: 20px; color: var(--cream); text-decoration: none; }
+.footer-brand .fl .red { color: #f4a89a; }
+.footer-brand p { font-family: var(--sans); font-size: 13px; margin-top: 8px; max-width: 240px; line-height: 1.65; }
+.footer-col h4 { font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(253,248,240,0.3); margin-bottom: 14px; }
+.footer-col a { font-family: var(--sans); display: block; font-size: 14px; color: rgba(253,248,240,0.55); text-decoration: none; margin-bottom: 8px; transition: color 0.15s; }
+.footer-col a:hover { color: var(--cream); }
+.footer-bottom { max-width: var(--max); margin: 40px auto 0; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-family: var(--sans); font-size: 12px; }
+.footer-bottom a { color: rgba(253,248,240,0.35); text-decoration: none; }
+
+/* MODALS */
+.modal-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(44,36,22,0.55); z-index: 1000;
+  align-items: center; justify-content: center; padding: 24px;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: white; border-radius: 16px; width: 100%; max-width: 480px;
+  padding: 40px; position: relative; max-height: 90vh; overflow-y: auto;
+}
+.modal-close {
+  position: absolute; top: 16px; right: 16px;
+  background: none; border: none; font-size: 18px; cursor: pointer;
+  color: var(--ink-3); width: 32px; height: 32px; border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.15s; font-family: var(--sans);
+}
+.modal-close:hover { background: var(--cream-2); }
+.modal h2 { font-family: var(--serif); font-size: 26px; margin-bottom: 6px; color: var(--ink); }
+.modal-sub { font-family: var(--sans); font-size: 14px; color: var(--ink-3); margin-bottom: 28px; line-height: 1.55; }
+.form-group { margin-bottom: 16px; }
+.form-label { font-family: var(--sans); font-size: 13px; font-weight: 600; color: var(--ink-2); display: block; margin-bottom: 6px; }
+.form-input {
+  width: 100%; padding: 10px 14px; border: 1.5px solid var(--rule);
+  border-radius: 8px; font-family: var(--sans); font-size: 15px; color: var(--ink);
+  background: white; transition: border-color 0.15s; outline: none;
+}
+.form-input:focus { border-color: var(--rooster); box-shadow: 0 0 0 3px rgba(192,57,43,0.1); }
+.cat-checkboxes { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 6px; }
+.cat-cb {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 12px; border: 1.5px solid var(--rule); border-radius: 8px;
+  cursor: pointer; font-family: var(--sans); font-size: 13px; font-weight: 500;
+  transition: border-color 0.15s, background 0.15s; color: var(--ink-2);
+}
+.cat-cb:hover { border-color: var(--rooster); background: var(--rooster-light); }
+.cat-cb input { width: 14px; height: 14px; accent-color: var(--rooster); }
+.cat-cb.locked { opacity: 0.4; pointer-events: none; }
+.form-note { font-family: var(--sans); font-size: 12px; color: var(--ink-4); margin-top: 6px; line-height: 1.5; }
+.form-error {
+  font-family: var(--sans); font-size: 13px; color: #dc2626;
+  background: #fef2f2; border: 1px solid #fecaca; padding: 10px 14px;
+  border-radius: 8px; margin-top: 12px; display: none;
+}
+.form-success {
+  font-family: var(--sans); font-size: 14px; color: var(--green);
+  background: var(--green-light); border: 1px solid #b6d9c5; padding: 14px;
+  border-radius: 8px; margin-top: 12px; display: none; line-height: 1.6;
+}
+#stripe-card-element { padding: 11px 14px; border: 1.5px solid var(--rule); border-radius: 8px; background: white; }
+.submit-btn {
+  width: 100%; padding: 14px; background: var(--rooster); color: white;
+  border: none; border-radius: 8px; font-family: var(--sans); font-size: 15px;
+  font-weight: 600; cursor: pointer; margin-top: 20px; transition: background 0.15s;
+}
+.submit-btn:hover { background: var(--rooster-mid); }
+.submit-btn:disabled { background: var(--ink-4); cursor: not-allowed; }
+
+@media (max-width: 680px) {
+  .what-grid { grid-template-columns: 1fr; }
+  .cat-grid { grid-template-columns: 1fr 1fr; }
+  .how-row { flex-direction: column; gap: 16px; }
+  .how-step:not(:last-child)::after { display: none; }
+  .nav-links a:not(.btn-nav):not(.active) { display: none; }
+  .footer-inner { flex-direction: column; }
+  .em-body { padding: 0 16px 24px; }
+  .em-header { padding: 24px 16px 20px; }
+  .em-footer { padding: 16px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo" onclick="showPage('home'); return false;">
+      <span class="rooster-icon">🐓</span>
+      The <span class="red">&nbsp;Rooster's Crow</span>
+    </a>
+    <div class="nav-links">
+      <a href="#" onclick="showPage('home'); return false;" class="active" id="nav-home">Home</a>
+      <a href="#" onclick="showPage('example'); return false;" id="nav-example">See an example</a>
+      <a href="#" onclick="showPage('pricing'); return false;" id="nav-pricing">Pricing</a>
+      <a href="#" onclick="showPage('about'); return false;" id="nav-about">About</a>
+      <a href="#" class="btn-nav" onclick="openSignup('free'); return false;">Start free</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════════ HOME ═══════════════ -->
+<div id="page-home" class="page active">
+
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-time">🌅 Delivered every morning at 7:00 AM</div>
+      <h1>Good morning.<br>Here's what <em>you</em> care about.</h1>
+      <p class="hero-sub">The Rooster's Crow is a friendly morning email that covers the news you actually want to read — markets, sports, science, politics, culture, business — whichever topics are yours. No scrolling required.</p>
+      <div class="hero-cta-row">
+        <a href="#" class="btn-primary" onclick="openSignup('free'); return false;">Get my free daily briefing</a>
+        <a href="#" class="btn-outline" onclick="showPage('example'); return false;">See a sample →</a>
+      </div>
+      <p class="hero-tagline">
+        <strong>Free forever</strong> for one category &nbsp;·&nbsp;
+        <strong>All six</strong> from $6/month &nbsp;·&nbsp;
+        <strong>No algorithm.</strong> Just your inbox.
+      </p>
+    </div>
+  </section>
+
+  <div class="intro-strip">
+    <p>We cut through the noise every night so your morning starts with clarity, not chaos. <a href="#" onclick="showPage('about'); return false;">Here's why we built it.</a></p>
+  </div>
+
+  <!-- WHAT YOU GET -->
+  <section class="section" style="background: white;">
+    <div class="section-inner">
+      <span class="eyebrow">What you get</span>
+      <h2 class="section-title">Everything worth knowing, nothing that isn't.</h2>
+      <p class="section-desc">One clean email. Your chosen topics. A calm start to the day.</p>
+      <div class="what-grid">
+        <div class="what-item">
+          <span class="what-icon">☕</span>
+          <div class="what-title">Ready by 7 AM</div>
+          <p class="what-desc">We work overnight so you wake up to a briefing that's already waiting — no refreshing, no catching up.</p>
+        </div>
+        <div class="what-item">
+          <span class="what-icon">🎯</span>
+          <div class="what-title">Your topics only</div>
+          <p class="what-desc">You choose which of our six categories land in your inbox. If you don't want sports, you'll never see it.</p>
+        </div>
+        <div class="what-item">
+          <span class="what-icon">✍️</span>
+          <div class="what-title">Actually written</div>
+          <p class="what-desc">Real summaries with context, not just headline dumps. We explain why something matters, not just that it happened.</p>
+        </div>
+        <div class="what-item">
+          <span class="what-icon">🚫</span>
+          <div class="what-title">No rabbit holes</div>
+          <p class="what-desc">Email stays email. There's no feed to scroll, no comments section to fall into, no algorithm nudging you sideways.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section" style="background: var(--cream-2); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);">
+    <div class="section-inner">
+      <span class="eyebrow">How it works</span>
+      <h2 class="section-title">Three steps and you're done.</h2>
+      <div class="how-row">
+        <div class="how-step">
+          <span class="how-num">1</span>
+          <h3>Pick your categories</h3>
+          <p>Choose one for free, or any mix of all six on a paid plan. Takes about thirty seconds.</p>
+        </div>
+        <div class="how-step">
+          <span class="how-num">2</span>
+          <h3>We write overnight</h3>
+          <p>Our team reads and summarizes the day's news each night so it's ready when you wake up.</p>
+        </div>
+        <div class="how-step">
+          <span class="how-num">3</span>
+          <h3>Open at 7 AM</h3>
+          <p>One email, already there. Read it with your coffee and start the day actually informed.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORIES -->
+  <section class="section" style="background: white;">
+    <div class="section-inner">
+      <span class="eyebrow">Six categories</span>
+      <h2 class="section-title">Pick the world you care about.</h2>
+      <p class="section-desc">Every category is its own self-contained summary. Mix and match whatever fits your morning.</p>
+      <div class="cat-grid">
+        <div class="cat-card">
+          <span class="cat-icon">🏛️</span>
+          <div class="cat-name">Politics</div>
+          <p class="cat-blurb">Policy, elections, and legislation — domestic and global, without the spin.</p>
+        </div>
+        <div class="cat-card">
+          <span class="cat-icon">📈</span>
+          <div class="cat-name">Markets</div>
+          <p class="cat-blurb">Overnight moves, what's driving them, and what to watch before the open.</p>
+        </div>
+        <div class="cat-card">
+          <span class="cat-icon">🏆</span>
+          <div class="cat-name">Sports</div>
+          <p class="cat-blurb">Scores, standings, and the story behind last night's games.</p>
+        </div>
+        <div class="cat-card">
+          <span class="cat-icon">🏢</span>
+          <div class="cat-name">Business</div>
+          <p class="cat-blurb">Earnings, deals, strategy, and the companies reshaping industries.</p>
+        </div>
+        <div class="cat-card">
+          <span class="cat-icon">🔬</span>
+          <div class="cat-name">Science</div>
+          <p class="cat-blurb">Research breakthroughs and discoveries, explained in plain English.</p>
+        </div>
+        <div class="cat-card">
+          <span class="cat-icon">🎭</span>
+          <div class="cat-name">Culture</div>
+          <p class="cat-blurb">Film, music, books, and the ideas everyone is talking about.</p>
+        </div>
+      </div>
+      <div style="margin-top: 32px; text-align: center;">
+        <a href="#" class="btn-outline" onclick="showPage('example'); return false;">See what a full email looks like →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PREVIEW -->
+  <section class="section" style="background: var(--cream-2); border-top: 1px solid var(--rule);">
+    <div class="section-inner" style="display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;">
+      <div>
+        <span class="eyebrow">A taste of it</span>
+        <h2 class="section-title">This is what lands in your inbox.</h2>
+        <p style="font-family: var(--sans); font-size: 16px; color: var(--ink-3); line-height: 1.75; margin-bottom: 28px;">Short. Useful. Finished in five minutes. No clickbait, no "here's why you should be worried." Just what happened and why it matters.</p>
+        <a href="#" class="btn-primary" onclick="showPage('example'); return false;">Read a full example</a>
+      </div>
+      <div class="morning-preview">
+        <div class="mp-from">
+          <span>🐓</span>
+          <span>The Rooster's Crow &lt;hello@roostersmail.com&gt;</span>
+        </div>
+        <div class="mp-subject">Your morning briefing — Monday, June 29</div>
+        <div style="border-top: 1px solid var(--rule); margin: 12px 0;"></div>
+        <span class="mp-tag politics">🏛️ Politics</span>
+        <p class="mp-body">The Senate passed a revised infrastructure bill 61–38. The House is expected to take it up next week. Two amendments on broadband funding were stripped in conference…</p>
+        <div style="height: 12px;"></div>
+        <span class="mp-tag markets">📈 Markets</span>
+        <p class="mp-body">The Fed held rates steady for a third straight meeting. Futures climbed 0.7% overnight on a stronger-than-expected jobs report. Oil slipped on demand signals from Asia.</p>
+        <p style="font-family: var(--sans); font-size: 12px; color: var(--ink-4); margin-top: 14px;">+ 4 more categories in the full email</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="bottom-cta">
+    <div class="section-inner">
+      <h2 class="section-title">Start tomorrow morning.</h2>
+      <p>One category, completely free. See how it feels to start the day already knowing what happened.</p>
+      <a href="#" class="btn-primary" style="font-size: 16px; padding: 16px 40px;" onclick="openSignup('free'); return false;">Get my free briefing</a>
+      <p style="font-size: 13px; color: rgba(253,248,240,0.4); margin-top: 16px; margin-bottom: 0;">No credit card · Unsubscribe any time · <a href="#" onclick="showPage('pricing'); return false;" style="color: rgba(253,248,240,0.45);">See all plans</a></p>
+    </div>
+  </div>
+
+</div><!-- end home -->
+
+<!-- ═══════════════ EXAMPLE EMAIL ═══════════════ -->
+<div id="page-example" class="page">
+
+  <div class="email-page-header">
+    <div class="email-wrap">
+      <span class="eyebrow">Sample briefing</span>
+      <h1 class="section-title">What lands in your inbox every morning.</h1>
+      <p style="font-family: var(--sans); font-size: 16px; color: var(--ink-3); line-height: 1.7; max-width: 520px;">This is a full six-category edition — what subscribers on an all-categories plan receive. Free and single-category subscribers see just their chosen section.</p>
+      <div style="margin-top: 24px; display: flex; gap: 12px; flex-wrap: wrap;">
+        <a href="#" class="btn-primary" onclick="openSignup('free'); return false;">Start free — pick your category</a>
+        <a href="#" class="btn-outline" onclick="showPage('pricing'); return false;">See pricing →</a>
+      </div>
+    </div>
+  </div>
+
+  <section class="section" style="background: var(--cream-2); border-bottom: 1px solid var(--rule);">
+    <div class="email-wrap">
+      <div class="email-chrome">
+
+        <!-- Email client header bar -->
+        <div class="email-chrome-bar">
+          <div class="email-chrome-row">
+            <span class="email-chrome-label">From</span>
+            <span class="email-chrome-val">🐓 The Rooster's Crow &lt;hello@roostersmail.com&gt;</span>
+          </div>
+          <div class="email-chrome-row">
+            <span class="email-chrome-label">To</span>
+            <span class="email-chrome-val">you@yourinbox.com</span>
+          </div>
+          <div class="email-chrome-row">
+            <span class="email-chrome-label">Subject</span>
+            <span class="email-chrome-val email-chrome-subject">🐓 Your morning briefing — Monday, June 30</span>
+          </div>
+          <div class="email-chrome-row">
+            <span class="email-chrome-label">Date</span>
+            <span class="email-chrome-val">Mon, Jun 30, 2026 · 7:00 AM</span>
+          </div>
+        </div>
+
+        <!-- Email body -->
+        <div class="email-body">
+          <div class="em-header">
+            <div class="em-masthead">🐓 The<span class="red"> Rooster's</span> Crow</div>
+            <div class="em-date">Monday, June 30, 2026</div>
+            <div class="em-delivery">Your daily briefing · All six categories · Delivered at 7:00 AM</div>
+          </div>
+
+          <div class="em-body">
+            <p class="em-greeting">Good morning. Here's everything worth knowing before you start your day — six categories, one email, five minutes. Let's go.</p>
+
+            <!-- POLITICS -->
+            <div class="em-section">
+              <span class="em-section-tag tag-politics">🏛️ Politics</span>
+              <h2 class="em-headline">Senate passes revised infrastructure bill 61–38; House takes it up next week</h2>
+              <p class="em-text">The Senate passed a $940 billion infrastructure and clean energy bill Saturday morning in a 61–38 bipartisan vote, sending it to the House after six weeks of committee negotiations. The final version strips two earlier amendments — one on broadband funding thresholds and one on rural EV charging mandates — that had threatened to cost swing votes on both sides of the aisle.</p>
+              <p class="em-text">House Speaker Mike Johnson said the chamber would take up the bill "no earlier than July 7," giving members time to return from recess. Three House Republicans have already publicly committed to voting yes, which likely puts it above the threshold needed to pass.</p>
+              <ul class="em-bullets">
+                <li>The EU announced new tariffs of 22% on Chinese electric vehicles, effective September 1, following a months-long anti-subsidy investigation</li>
+                <li>Canada's snap election is now formally scheduled for September 14; Liberal leader Mark Carney leads in national polling by 4 points</li>
+                <li>The Supreme Court agreed to hear a First Amendment case involving state social media content moderation laws in its October term</li>
+              </ul>
+            </div>
+
+            <!-- MARKETS -->
+            <div class="em-section">
+              <span class="em-section-tag tag-markets">📈 Markets</span>
+              <h2 class="em-headline">Fed holds rates a third time; tech futures climb on strong jobs data</h2>
+              <p class="em-text">The Federal Reserve kept its benchmark rate unchanged at 5.25–5.5% for the third consecutive meeting on Friday, with chair Jerome Powell citing "mixed signals on inflation" and noting that the committee sees no urgency to act in either direction. The decision was unanimous.</p>
+              <p class="em-text">Markets shrugged off any concern. S&P 500 futures were up 0.7% overnight after May's non-farm payroll report beat expectations at 218,000 jobs added — analysts had penciled in 185,000. The unemployment rate held at 3.9%.</p>
+              <ul class="em-bullets">
+                <li><strong>S&P 500 futures:</strong> +0.7% · <strong>Nasdaq:</strong> +1.1% · <strong>Dow:</strong> +0.4%</li>
+                <li><strong>10-year Treasury yield:</strong> 4.34% (up 3bps)</li>
+                <li><strong>Brent crude:</strong> $81.20, down 1.4% on softer demand signals from China's manufacturing PMI</li>
+                <li><strong>USD/EUR:</strong> 1.072 · <strong>Bitcoin:</strong> $67,400, flat</li>
+              </ul>
+              <p class="em-text"><strong>Worth watching:</strong> Thursday's CPI reading will be the next major data point. A second consecutive month below 3.1% could shift the Fed's language meaningfully at July's meeting.</p>
+            </div>
+
+            <!-- SPORTS -->
+            <div class="em-section">
+              <span class="em-section-tag tag-sports">🏆 Sports</span>
+              <h2 class="em-headline">Celtics take Game 4 to tie the Finals at 2–2; Copa América quarterfinals set</h2>
+              <p class="em-text">The Boston Celtics evened the NBA Finals with a convincing 108–94 win over the Oklahoma City Thunder in Game 4 Sunday night at TD Garden. Jayson Tatum led all scorers with 34 points and 11 rebounds, while Jalen Williams — who had been unguardable through the series — was held to 18 points on 6-of-18 shooting. Game 5 is Tuesday in Oklahoma City.</p>
+              <p class="em-text">Copa América quarterfinals are now set after Sunday's group stage concluded. The standout matchup is Argentina vs. Uruguay on Thursday in Miami — a classic rivalry that hasn't met in the knockout stage since 2021.</p>
+              <ul class="em-bullets">
+                <li><strong>MLB:</strong> Yankees beat the Red Sox 7–3 (Gerrit Cole, 8 IP, 1 ER); Dodgers lost to the Cubs 4–2</li>
+                <li><strong>Wimbledon:</strong> Third round begins today. Alcaraz and Swiatek both progressed through their second-round matches Sunday</li>
+                <li><strong>Formula 1:</strong> The British Grand Prix is this weekend at Silverstone; Max Verstappen leads the Drivers' Championship by 47 points</li>
+              </ul>
+            </div>
+
+            <!-- BUSINESS -->
+            <div class="em-section">
+              <span class="em-section-tag tag-business">🏢 Business</span>
+              <h2 class="em-headline">Apple acquires AI chip startup Verdant Labs for $2.1B; Amazon lays off 1,400 in logistics</h2>
+              <p class="em-text">Apple quietly closed its largest acquisition of the year Friday, purchasing San Jose-based Verdant Labs for approximately $2.1 billion. Verdant specializes in low-power inference chips designed for on-device AI applications — precisely the architecture Apple needs for its next generation of Apple Intelligence features. Neither party commented beyond a brief confirmation.</p>
+              <p class="em-text">Amazon, meanwhile, confirmed layoffs of 1,400 workers across its US logistics and last-mile delivery teams, citing "a shift toward automated fulfillment" at several fulfillment centers. The cuts represent roughly 0.4% of Amazon's US workforce. Affected employees were notified Friday and will receive 60 days' severance.</p>
+              <ul class="em-bullets">
+                <li>Nvidia announced a partnership with Saudi Aramco to build AI infrastructure across the Gulf — a deal valued at $600M over five years</li>
+                <li>Spotify raised its premium subscription price by $1/month in the US and UK, effective August 1</li>
+                <li>WeWork's restructured entity filed for a second IPO with the SEC; the company is now profitable at the unit level</li>
+              </ul>
+            </div>
+
+            <!-- SCIENCE -->
+            <div class="em-section">
+              <span class="em-section-tag tag-science">🔬 Science</span>
+              <h2 class="em-headline">CRISPR therapy shows 94% reduction in sickle cell episodes after two years; new tardigrade protein could protect human cells</h2>
+              <p class="em-text">A two-year follow-up study published Sunday in the New England Journal of Medicine found that 94% of patients who received the first approved CRISPR gene therapy for sickle cell disease reported zero severe vaso-occlusive crises since treatment. The therapy, developed by Vertex Pharmaceuticals and CRISPR Therapeutics, edits patients' own stem cells to restore normal hemoglobin production. The EU's European Medicines Agency is now conducting an expedited review.</p>
+              <p class="em-text">Separately, researchers at the University of Wyoming published a study showing that Dsup — a protein found in tardigrades, the microscopic animals famous for surviving extreme conditions — can be introduced into human kidney cells in a lab setting and significantly reduce radiation-induced DNA damage. The finding has potential implications for cancer radiation therapy and long-duration spaceflight.</p>
+              <ul class="em-bullets">
+                <li>NASA confirmed the James Webb Space Telescope detected water vapor in the atmosphere of exoplanet K2-18b for the second time, strengthening the case for a liquid-water ocean beneath its atmosphere</li>
+                <li>A new study in <em>Nature Climate Change</em> revised global permafrost thaw projections upward, estimating 15% more carbon release by 2100 than previous models predicted</li>
+                <li>The WHO formally declared the West African mpox outbreak "contained" after 28 days with no new reported cases</li>
+              </ul>
+            </div>
+
+            <!-- CULTURE -->
+            <div class="em-section">
+              <span class="em-section-tag tag-culture">🎭 Culture</span>
+              <h2 class="em-headline">"The Long Way Round" debuts at No. 1; Kendrick Lamar's tour opener draws 70,000 in LA</h2>
+              <p class="em-text">Director Ava DuVernay's long-gestating epic "The Long Way Round" opened to $54 million domestically over the weekend, the best opening of her career. Critics have been largely enthusiastic, with the film sitting at 87% on Rotten Tomatoes. The film follows three generations of a Louisiana family across 100 years and runs three hours and four minutes.</p>
+              <p class="em-text">Kendrick Lamar launched his "Grand National" world tour at the Rose Bowl in Pasadena Saturday night before a sold-out crowd of over 70,000. The show ran two hours and forty minutes and featured a guest appearance from SZA. He plays a second Rose Bowl date tonight before moving to the Bay Area midweek.</p>
+              <ul class="em-bullets">
+                <li><strong>Books:</strong> Colson Whitehead's new novel "Passenger" debuted at No. 1 on the NYT bestseller list in its first week</li>
+                <li><strong>TV:</strong> HBO's "The Franchise" returns for Season 2 tonight; the comedy was one of the most-watched debuts of 2025</li>
+                <li><strong>Art:</strong> The Venice Biennale's main exhibition drew a record 620,000 visitors before closing Sunday</li>
+              </ul>
+            </div>
+
+          </div><!-- end em-body -->
+
+          <div class="em-footer">
+            <p>You're receiving this because you subscribed to The Rooster's Crow · All six categories.</p>
+            <p style="margin-top: 6px;"><a href="#">Manage categories</a> · <a href="#">Pause deliveries</a> · <a href="#">Unsubscribe</a> · <a href="#">Privacy policy</a></p>
+            <p style="margin-top: 6px;">The Rooster's Crow · Made with care somewhere with good coffee</p>
+          </div>
+
+        </div><!-- end email-body -->
+      </div><!-- end email-chrome -->
+
+      <div style="margin-top: 40px; background: var(--rooster-light); border: 1.5px solid #f4b8b0; border-radius: 12px; padding: 28px; text-align: center;">
+        <p style="font-family: var(--serif); font-size: 20px; color: var(--ink); margin-bottom: 8px;">Want this in your inbox?</p>
+        <p style="font-family: var(--sans); font-size: 14px; color: var(--ink-3); margin-bottom: 20px;">Start free with one category. Upgrade to all six any time.</p>
+        <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+          <a href="#" class="btn-primary" onclick="openSignup('free'); return false;">Start free</a>
+          <a href="#" class="btn-outline" onclick="showPage('pricing'); return false;">See pricing</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</div><!-- end example -->
+
+<!-- ═══════════════ PRICING ═══════════════ -->
+<div id="page-pricing" class="page">
+
+  <div class="pricing-hero">
+    <div class="section-inner">
+      <span class="eyebrow" style="display: block; text-align: center;">Pricing</span>
+      <h1 class="section-title" style="text-align: center; margin: 0 auto 16px;">Simple, honest pricing.</h1>
+      <p class="section-desc" style="text-align: center; margin: 0 auto; font-family: var(--sans);">Start free with one category and see if you like waking up informed. Upgrade when you're ready for more.</p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="section-inner">
+      <div class="pricing-grid">
+
+        <div class="plan-card">
+          <div class="plan-name">Free forever</div>
+          <div class="plan-price-row"><span class="plan-price">$0</span></div>
+          <div style="height: 28px;"></div>
+          <p class="plan-tagline">One category, every morning, for as long as you like. No card required, ever.</p>
+          <hr class="plan-divider" />
+          <ul class="plan-features">
+            <li><span class="plan-check">✓</span><span>Your choice of <strong>1 category</strong></span></li>
+            <li><span class="plan-check">✓</span><span>Daily delivery at 07:00 AM</span></li>
+            <li><span class="plan-check">✓</span><span>Curated summaries, not headlines</span></li>
+            <li><span class="plan-check" style="color: var(--ink-4);">–</span><span style="color: var(--ink-4);">Includes occasional ads</span></li>
+            <li><span class="plan-check" style="color: var(--ink-4);">–</span><span style="color: var(--ink-4);">Limited to 1 category</span></li>
+          </ul>
+          <button class="plan-btn secondary" onclick="openSignup('free')">Get started — free</button>
+        </div>
+
+        <div class="plan-card featured">
+          <span class="plan-badge">Most popular</span>
+          <div class="plan-name">Flexible Monthly</div>
+          <div class="plan-price-row">
+            <span class="plan-price">$6</span>
+            <span class="plan-per">/month</span>
+          </div>
+          <div style="height: 28px;"></div>
+          <p class="plan-tagline">Any combination of 1–6 categories, ad-free. Change your mix any time, cancel any time.</p>
+          <hr class="plan-divider" />
+          <ul class="plan-features">
+            <li><span class="plan-check">✓</span><span>Any <strong>1–6 categories</strong>, your choice</span></li>
+            <li><span class="plan-check">✓</span><span>Daily delivery at 07:00 AM</span></li>
+            <li><span class="plan-check">✓</span><span>Completely <strong>ad-free</strong></span></li>
+            <li><span class="plan-check">✓</span><span>Update categories any time</span></li>
+            <li><span class="plan-check">✓</span><span>Cancel or pause any time</span></li>
+          </ul>
+          <button class="plan-btn primary" onclick="openSignup('monthly')">Subscribe — $6/month</button>
+        </div>
+
+        <div class="plan-card">
+          <span class="savings-badge">Save $22 vs monthly</span>
+          <div class="plan-name">Value Annual</div>
+          <div class="plan-price-row">
+            <span class="plan-price">$50</span>
+            <span class="plan-per">/year</span>
+          </div>
+          <div style="height: 28px;"></div>
+          <p class="plan-tagline">All the same access, locked in at the best rate. Just over $4/month.</p>
+          <hr class="plan-divider" />
+          <ul class="plan-features">
+            <li><span class="plan-check">✓</span><span>Any <strong>1–6 categories</strong>, your choice</span></li>
+            <li><span class="plan-check">✓</span><span>Daily delivery at 07:00 AM</span></li>
+            <li><span class="plan-check">✓</span><span>Completely <strong>ad-free</strong></span></li>
+            <li><span class="plan-check">✓</span><span>Update categories any time</span></li>
+            <li><span class="plan-check">✓</span><span>Priority support</span></li>
+          </ul>
+          <button class="plan-btn primary" onclick="openSignup('annual')">Subscribe — $50/year</button>
+        </div>
+
+      </div>
+
+      <!-- COMPARISON -->
+      <div style="margin-top: 64px;">
+        <h2 style="font-family: var(--serif); font-size: 28px; text-align: center; margin-bottom: 28px; color: var(--ink);">At a glance</h2>
+        <div style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; font-family: var(--sans); font-size: 14px;">
+            <thead>
+              <tr style="border-bottom: 2px solid var(--rule);">
+                <th style="text-align: left; padding: 12px 16px; color: var(--ink-3); font-weight: 600;"></th>
+                <th style="padding: 12px 16px; color: var(--ink-3); font-weight: 600; text-align: center;">Free</th>
+                <th style="padding: 12px 16px; color: var(--rooster); font-weight: 700; text-align: center; background: var(--rooster-light);">Monthly $6</th>
+                <th style="padding: 12px 16px; color: var(--ink-3); font-weight: 600; text-align: center;">Annual $50</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid var(--rule);">
+                <td style="padding: 13px 16px; color: var(--ink-2);">Categories</td>
+                <td style="padding: 13px 16px; text-align: center; color: var(--ink-3);">1</td>
+                <td style="padding: 13px 16px; text-align: center; font-weight: 600; background: var(--rooster-light);">1–6</td>
+                <td style="padding: 13px 16px; text-align: center; font-weight: 600;">1–6</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--rule);">
+                <td style="padding: 13px 16px; color: var(--ink-2);">Ad-free</td>
+                <td style="padding: 13px 16px; text-align: center; color: var(--ink-4);">No</td>
+                <td style="padding: 13px 16px; text-align: center; color: var(--green); font-weight: 600; background: var(--rooster-light);">Yes</td>
+                <td style="padding: 13px 16px; text-align: center; color: var(--green); font-weight: 600;">Yes</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--rule);">
+                <td style="padding: 13px 16px; color: var(--ink-2);">Cancel any time</td>
+                <td style="padding: 13px 16px; text-align: center; color: var(--ink-4);">—</td>
+                <td style="padding: 13px 16px; text-align: center; color: var(--green); background: var(--rooster-light);">✓</td>
+                <td style="padding: 13px 16px; text-align: center; color: var(--green);">✓</td>
+              </tr>
+              <tr>
+                <td style="padding: 13px 16px; color: var(--ink-2);">Best for</td>
+                <td style="padding: 13px 16px; text-align: center; color: var(--ink-3);">Trying it</td>
+                <td style="padding: 13px 16px; text-align: center; font-weight: 600; background: var(--rooster-light);">Flexibility</td>
+                <td style="padding: 13px 16px; text-align: center; font-weight: 600;">Best value</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="deactivate-box">
+        <h3>Manage or deactivate your account</h3>
+        <p>You can update your category mix, pause deliveries, or permanently close your account at any time. Closing your account cancels any active subscription and removes your data from our systems.</p>
+        <button class="btn-deactivate" onclick="openDeactivate()">Deactivate my account</button>
+      </div>
+
+    </div>
+  </section>
+</div><!-- end pricing -->
+
+<!-- ═══════════════ ABOUT ═══════════════ -->
+<div id="page-about" class="page">
+
+  <section class="about-hero">
+    <div class="section-inner">
+      <span class="eyebrow">About us</span>
+      <h1 class="section-title" style="font-size: clamp(30px, 5vw, 50px); max-width: 600px;">We got tired of social media pretending to be news.</h1>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-inner">
+      <div class="about-body">
+
+        <p class="lede">There's a specific kind of frustration that comes from spending twenty minutes on your phone first thing in the morning and walking away feeling worse informed than when you started.</p>
+
+        <p>That was us, every day. Open Instagram or X to "catch up," and somehow forty-five minutes later you've seen seventeen takes on yesterday's controversy, three things designed to make you angry, and approximately zero pieces of actual information you needed. Close the app. Realize you still don't know what the market did overnight or what happened in the game last night.</p>
+
+        <div class="pull-quote">"We'd spend an hour between news apps and still not really know what happened yesterday."</div>
+
+        <p>The problem with going directly to news sites wasn't much better. Every outlet has its own view of what's "important today." Front pages are stacked with opinion columns dressed as news, five different versions of the same story, and enough breaking alerts to make anything feel urgent. Finding the two things you actually cared about meant clicking through twelve things you didn't.</p>
+
+        <p>We also noticed that the topics we wanted to stay on top of — markets, science, sports, politics — never lived in the same place. Multiple apps, multiple notification streams, multiple rabbit holes. Fragmented by design, because fragmentation is good for engagement numbers, even when it's bad for actual readers.</p>
+
+        <p>The Rooster's Crow started as a shared Google Doc. A morning summary: here's what happened in the categories we care about, written plainly, no agenda. It took us about twenty minutes each morning. After a few weeks, friends asked to be added. Then their friends. So we turned it into a newsletter.</p>
+
+        <p>We kept it simple on purpose. One email. Your categories. Seven o'clock. No push notifications, no algorithm, no system nudging you toward content that keeps you "engaged" for thirty more seconds. Just the things you said you wanted to read, written by people who actually read the news, arriving before your coffee gets cold.</p>
+
+        <p>The free tier exists because we think access to a decent morning summary of things you care about shouldn't cost anything. The paid plans exist so we can keep doing this without selling your attention to advertisers.</p>
+
+        <p style="color: var(--ink-3); font-size: 16px;">— Jordan & Sam, The Rooster's Crow</p>
+
+      </div>
+
+      <hr style="border: none; border-top: 1px solid var(--rule); margin: 64px 0;" />
+
+      <span class="eyebrow">The team</span>
+      <h2 class="section-title">Two people who read too much news.</h2>
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="team-avatar">JM</div>
+          <div class="team-name">Jordan Mercer</div>
+          <div class="team-role">Co-founder · Editorial</div>
+          <p class="team-bio">Former wire service editor. Spent a decade summarizing complex stories under tight deadlines. Believes brevity is a form of respect.</p>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">SR</div>
+          <div class="team-name">Sam Reyes</div>
+          <div class="team-role">Co-founder · Product</div>
+          <p class="team-bio">Built consumer products at two startups before realizing everything he'd worked on was optimized for time-on-platform rather than value delivered.</p>
+        </div>
+      </div>
+
+      <hr style="border: none; border-top: 1px solid var(--rule); margin: 64px 0;" />
+
+      <div style="background: var(--cream-2); border: 1.5px solid var(--rule); border-radius: 16px; padding: 48px; text-align: center;">
+        <h2 class="section-title" style="margin-bottom: 12px;">Read it tomorrow morning.</h2>
+        <p style="font-family: var(--sans); font-size: 16px; color: var(--ink-3); margin-bottom: 28px; max-width: 440px; margin-left: auto; margin-right: auto;">Start with one category, free. See if a five-minute email beats forty-five minutes of scrolling.</p>
+        <a href="#" class="btn-primary" onclick="openSignup('free'); return false;">Get my free briefing</a>
+      </div>
+
+    </div>
+  </section>
+
+</div><!-- end about -->
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="#" class="fl" onclick="showPage('home'); return false;">🐓 The<span class="red"> Rooster's</span> Crow</a>
+      <p>A friendly morning briefing at 07:00 AM. Your categories, your inbox, no noise.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Pages</h4>
+      <a href="#" onclick="showPage('home'); return false;">Home</a>
+      <a href="#" onclick="showPage('example'); return false;">See an example</a>
+      <a href="#" onclick="showPage('pricing'); return false;">Pricing</a>
+      <a href="#" onclick="showPage('about'); return false;">About</a>
+    </div>
+    <div class="footer-col">
+      <h4>Account</h4>
+      <a href="#" onclick="openSignup('free'); return false;">Start free</a>
+      <a href="#" onclick="openSignup('monthly'); return false;">Go ad-free</a>
+      <a href="#" onclick="openDeactivate(); return false;">Deactivate</a>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <a href="#">Privacy policy</a>
+      <a href="#">Terms of service</a>
+      <a href="#">Contact us</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 The Rooster's Crow. All rights reserved.</span>
+    <span>Payments by <a href="https://stripe.com" target="_blank">Stripe</a> · Delivery by <a href="https://beehiiv.com" target="_blank">beehiiv</a></span>
+  </div>
+</footer>
+
+<!-- ═══════════════ SIGNUP MODAL ═══════════════ -->
+<div class="modal-overlay" id="signup-modal" onclick="closeOnOverlay(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('signup-modal')">✕</button>
+    <h2 id="modal-title">Start your free briefing</h2>
+    <p class="modal-sub" id="modal-sub">One category, every morning at 07:00 AM. No credit card needed.</p>
+    <div class="form-group">
+      <label class="form-label" for="su-name">Your name</label>
+      <input type="text" id="su-name" class="form-input" placeholder="Alex Johnson" autocomplete="given-name" />
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="su-email">Email address</label>
+      <input type="email" id="su-email" class="form-input" placeholder="you@example.com" autocomplete="email" />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Choose your categories</label>
+      <p class="form-note" id="cat-note" style="margin-bottom: 8px;">Free plan: pick exactly one.</p>
+      <div class="cat-checkboxes" id="cat-checkboxes">
+        <label class="cat-cb"><input type="checkbox" value="politics" onchange="handleCatCheck(this)" /> 🏛️ Politics</label>
+        <label class="cat-cb"><input type="checkbox" value="markets" onchange="handleCatCheck(this)" /> 📈 Markets</label>
+        <label class="cat-cb"><input type="checkbox" value="sports" onchange="handleCatCheck(this)" /> 🏆 Sports</label>
+        <label class="cat-cb"><input type="checkbox" value="business" onchange="handleCatCheck(this)" /> 🏢 Business</label>
+        <label class="cat-cb"><input type="checkbox" value="science" onchange="handleCatCheck(this)" /> 🔬 Science</label>
+        <label class="cat-cb"><input type="checkbox" value="culture" onchange="handleCatCheck(this)" /> 🎭 Culture</label>
+      </div>
+    </div>
+    <div id="payment-section" style="display:none;">
+      <div class="form-group">
+        <label class="form-label">Payment</label>
+        <div id="stripe-card-element"></div>
+        <p class="form-note">Secured by Stripe. We never store your card details.</p>
+      </div>
+    </div>
+    <div class="form-error" id="su-error"></div>
+    <div class="form-success" id="su-success"></div>
+    <button class="submit-btn" id="submit-btn" onclick="handleSignup()">
+      <span id="submit-label">Create free account</span>
+    </button>
+    <p class="form-note" style="text-align: center; margin-top: 12px;">By signing up you agree to our <a href="#" style="color: var(--rooster);">Terms</a> &amp; <a href="#" style="color: var(--rooster);">Privacy Policy</a>.</p>
+  </div>
+</div>
+
+<!-- ═══════════════ DEACTIVATE MODAL ═══════════════ -->
+<div class="modal-overlay" id="deactivate-modal" onclick="closeOnOverlay(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('deactivate-modal')">✕</button>
+    <h2 style="color: #dc2626;">Deactivate account</h2>
+    <p class="modal-sub">This permanently removes your account and cancels any active subscription. It can't be undone.</p>
+    <div class="form-group">
+      <label class="form-label" for="da-email">Your email address</label>
+      <input type="email" id="da-email" class="form-input" placeholder="you@example.com" />
+    </div>
+    <p style="font-family: var(--sans); font-size: 13px; color: var(--ink-3); margin: 12px 0; line-height: 1.6;">Type <strong>DEACTIVATE</strong> below to confirm.</p>
+    <div class="form-group">
+      <input type="text" id="da-confirm" class="form-input" placeholder="DEACTIVATE" />
+    </div>
+    <div class="form-error" id="da-error"></div>
+    <div class="form-success" id="da-success"></div>
+    <button class="submit-btn" style="background: #dc2626;" onclick="handleDeactivate()">Permanently deactivate</button>
+  </div>
+</div>
+
+<script>
+// NAVIGATION
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  var el = document.getElementById('nav-' + name);
+  if (el) el.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// STRIPE
+const STRIPE_PK = 'pk_live_YOUR_STRIPE_PUBLISHABLE_KEY';
+const PRICE_IDS = { monthly: 'price_monthly_id_here', annual: 'price_annual_id_here' };
+let stripe, cardElement, currentPlan = 'free';
+const MAX_CATS = { free: 1, monthly: 6, annual: 6 };
+
+function initStripe() {
+  if (!stripe && window.Stripe) {
+    try {
+      stripe = Stripe(STRIPE_PK);
+      var elements = stripe.elements();
+      cardElement = elements.create('card', {
+        style: { base: { fontFamily: 'Inter, sans-serif', fontSize: '15px', color: '#2c2416' } }
+      });
+      cardElement.mount('#stripe-card-element');
+    } catch(e) { console.warn('Stripe: placeholder key'); }
+  }
+}
+
+// MODALS
+function openSignup(plan) {
+  currentPlan = plan;
+  document.getElementById('signup-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  var titles = {
+    free: ['Start your free briefing', 'One category, every morning at 07:00 AM. No credit card needed.'],
+    monthly: ['Go ad-free — $6/month', 'Choose any 1–6 categories, ad-free. Cancel any time.'],
+    annual: ['Best value — $50/year', 'Full access, ad-free, best price. Saves you $22 vs monthly.']
+  };
+  document.getElementById('modal-title').textContent = titles[plan][0];
+  document.getElementById('modal-sub').textContent = titles[plan][1];
+  document.getElementById('submit-label').textContent = plan === 'free' ? 'Create free account' : (plan === 'monthly' ? 'Subscribe — $6/month' : 'Subscribe — $50/year');
+  document.getElementById('cat-note').textContent = plan === 'free' ? 'Free plan: pick exactly one category.' : 'Pick any mix of 1–6 categories.';
+  document.querySelectorAll('#cat-checkboxes input').forEach(cb => { cb.checked = false; cb.closest('.cat-cb').classList.remove('locked'); });
+  document.getElementById('payment-section').style.display = plan !== 'free' ? 'block' : 'none';
+  if (plan !== 'free') initStripe();
+  document.getElementById('su-error').style.display = 'none';
+  document.getElementById('su-success').style.display = 'none';
+  document.getElementById('submit-btn').style.display = '';
+  return false;
+}
+
+function openDeactivate() {
+  document.getElementById('deactivate-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  return false;
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function closeOnOverlay(e) {
+  if (e.target === e.currentTarget) closeModal(e.currentTarget.id);
+}
+
+function handleCatCheck(cb) {
+  var checked = document.querySelectorAll('#cat-checkboxes input:checked');
+  var max = MAX_CATS[currentPlan];
+  document.querySelectorAll('#cat-checkboxes input').forEach(function(c) {
+    if (!c.checked && checked.length >= max) {
+      c.closest('.cat-cb').classList.add('locked');
+    } else {
+      c.closest('.cat-cb').classList.remove('locked');
+    }
+  });
+}
+
+async function handleSignup() {
+  var name = document.getElementById('su-name').value.trim();
+  var email = document.getElementById('su-email').value.trim();
+  var checked = Array.from(document.querySelectorAll('#cat-checkboxes input:checked')).map(c => c.value);
+  var errEl = document.getElementById('su-error');
+  var btn = document.getElementById('submit-btn');
+  errEl.style.display = 'none';
+  if (!name) { showSuError('Please enter your name.'); return; }
+  if (!email || !email.includes('@')) { showSuError('Please enter a valid email address.'); return; }
+  if (checked.length === 0) { showSuError('Please choose at least one category.'); return; }
+  if (currentPlan === 'free' && checked.length > 1) { showSuError('The free plan allows only one category — please pick your favourite.'); return; }
+  btn.disabled = true;
+  document.getElementById('submit-label').textContent = 'Setting things up…';
+  try {
+    await sendToBeehiiv({ name, email, plan: currentPlan, categories: checked });
+    if (currentPlan !== 'free') { await handleStripePayment(name, email, checked); return; }
+    showSuSuccess('You\'re in! Your first briefing arrives tomorrow morning at 07:00 AM. Check your inbox for a confirmation.');
+  } catch(err) {
+    showSuError(err.message || 'Something went wrong — please try again.');
+    btn.disabled = false;
+    document.getElementById('submit-label').textContent = currentPlan === 'free' ? 'Create free account' : 'Subscribe';
+  }
+}
+
+async function handleStripePayment(name, email, categories) {
+  if (!stripe || !cardElement) {
+    showSuSuccess('Thanks! We\'ll follow up with a payment confirmation by email shortly.');
+    return;
+  }
+  var result = await stripe.createPaymentMethod({ type: 'card', card: cardElement, billing_details: { name, email } });
+  if (result.error) { throw new Error(result.error.message); }
+  var res = await fetch('/wp-json/roosters-crow/v1/subscribe', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, email, plan: currentPlan, categories, priceId: PRICE_IDS[currentPlan], paymentMethodId: result.paymentMethod.id })
+  });
+  var data = await res.json();
+  if (data.error) throw new Error(data.error);
+  showSuSuccess('Subscribed! Your first full briefing lands tomorrow at 07:00 AM. Your receipt is on its way.');
+}
+
+async function sendToBeehiiv({ name, email, plan, categories }) {
+  try {
+    await fetch('/wp-json/roosters-crow/v1/beehiiv-subscribe', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, plan, categories })
+    });
+  } catch(e) { /* non-critical */ }
+}
+
+function showSuError(msg) {
+  var el = document.getElementById('su-error');
+  el.textContent = msg; el.style.display = 'block';
+  document.getElementById('submit-btn').disabled = false;
+}
+
+function showSuSuccess(msg) {
+  var el = document.getElementById('su-success');
+  el.textContent = msg; el.style.display = 'block';
+  document.getElementById('submit-btn').style.display = 'none';
+}
+
+async function handleDeactivate() {
+  var email = document.getElementById('da-email').value.trim();
+  var confirm = document.getElementById('da-confirm').value.trim();
+  var errEl = document.getElementById('da-error');
+  var succEl = document.getElementById('da-success');
+  errEl.style.display = 'none'; succEl.style.display = 'none';
+  if (!email) { errEl.textContent = 'Please enter your email address.'; errEl.style.display = 'block'; return; }
+  if (confirm !== 'DEACTIVATE') { errEl.textContent = 'Please type DEACTIVATE exactly to confirm.'; errEl.style.display = 'block'; return; }
+  try {
+    await fetch('/wp-json/roosters-crow/v1/deactivate', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+    succEl.textContent = 'Done — your account has been deactivated and any active subscription cancelled. Sorry to see you go.';
+    succEl.style.display = 'block';
+    document.querySelector('#deactivate-modal .submit-btn').style.display = 'none';
+  } catch(e) {
+    errEl.textContent = 'Something went wrong. Please email us directly to close your account.';
+    errEl.style.display = 'block';
+  }
+}
+</script>
+</body>
+</html>
