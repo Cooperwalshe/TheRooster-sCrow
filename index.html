@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +7,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
-<script src="https://js.stripe.com/v3/"></script>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -462,7 +460,6 @@ footer {
   background: var(--green-light); border: 1px solid #b6d9c5; padding: 14px;
   border-radius: 8px; margin-top: 12px; display: none; line-height: 1.6;
 }
-#stripe-card-element { padding: 11px 14px; border: 1.5px solid var(--rule); border-radius: 8px; background: white; }
 .submit-btn {
   width: 100%; padding: 14px; background: var(--rooster); color: white;
   border: none; border-radius: 8px; font-family: var(--sans); font-size: 15px;
@@ -1068,13 +1065,6 @@ footer {
         <label class="cat-cb"><input type="checkbox" value="culture" onchange="handleCatCheck(this)" /> 🎭 Culture</label>
       </div>
     </div>
-    <div id="payment-section" style="display:none;">
-      <div class="form-group">
-        <label class="form-label">Payment</label>
-        <div id="stripe-card-element"></div>
-        <p class="form-note">Secured by Stripe. We never store your card details.</p>
-      </div>
-    </div>
     <div class="form-error" id="su-error"></div>
     <div class="form-success" id="su-success"></div>
     <button class="submit-btn" id="submit-btn" onclick="handleSignup()">
@@ -1115,24 +1105,16 @@ function showPage(name) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// STRIPE
-const STRIPE_PK = 'pk_live_YOUR_STRIPE_PUBLISHABLE_KEY';
-const PRICE_IDS = { monthly: 'price_monthly_id_here', annual: 'price_annual_id_here' };
-let stripe, cardElement, currentPlan = 'free';
-const MAX_CATS = { free: 1, monthly: 6, annual: 6 };
+// CONFIGURATION
+const BEEHIIV_API_KEY = '10Op5lJWxXevggGtzma0r8HjGt5aJJgsLl01wZngqG92oprJm1Ip9gDkddpfDx9d';
+const BEEHIIV_PUB_ID  = 'pub_ce0cf159-44e6-440a-8731-3835b4a66f57';
+const PAYMENT_LINKS = {
+  monthly: 'https://buy.stripe.com/9B6eVddDDaF38qv9kt1ck00',
+  annual:  'https://buy.stripe.com/6oU28rczzeVj6ingMV1ck01'
+};
 
-function initStripe() {
-  if (!stripe && window.Stripe) {
-    try {
-      stripe = Stripe(STRIPE_PK);
-      var elements = stripe.elements();
-      cardElement = elements.create('card', {
-        style: { base: { fontFamily: 'Inter, sans-serif', fontSize: '15px', color: '#2c2416' } }
-      });
-      cardElement.mount('#stripe-card-element');
-    } catch(e) { console.warn('Stripe: placeholder key'); }
-  }
-}
+let currentPlan = 'free';
+const MAX_CATS = { free: 1, monthly: 6, annual: 6 };
 
 // MODALS
 function openSignup(plan) {
@@ -1140,18 +1122,16 @@ function openSignup(plan) {
   document.getElementById('signup-modal').classList.add('open');
   document.body.style.overflow = 'hidden';
   var titles = {
-    free: ['Start your free briefing', 'One category, every morning at 07:00 AM. No credit card needed.'],
-    monthly: ['Go ad-free — $6/month', 'Choose any 1–6 categories, ad-free. Cancel any time.'],
-    annual: ['Best value — $50/year', 'Full access, ad-free, best price. Saves you $22 vs monthly.']
+    free:    ['Start your free briefing',  'One category, every morning at 07:00 AM. No credit card needed.'],
+    monthly: ['Go ad-free — $6/month',     'Choose any 1–6 categories, ad-free. Cancel any time.'],
+    annual:  ['Best value — $50/year',     'Full access, ad-free, best price. Saves you $22 vs monthly.']
   };
-  document.getElementById('modal-title').textContent = titles[plan][0];
-  document.getElementById('modal-sub').textContent = titles[plan][1];
-  document.getElementById('submit-label').textContent = plan === 'free' ? 'Create free account' : (plan === 'monthly' ? 'Subscribe — $6/month' : 'Subscribe — $50/year');
-  document.getElementById('cat-note').textContent = plan === 'free' ? 'Free plan: pick exactly one category.' : 'Pick any mix of 1–6 categories.';
+  document.getElementById('modal-title').textContent   = titles[plan][0];
+  document.getElementById('modal-sub').textContent     = titles[plan][1];
+  document.getElementById('submit-label').textContent  = plan === 'free' ? 'Create free account' : (plan === 'monthly' ? 'Subscribe — $6/month' : 'Subscribe — $50/year');
+  document.getElementById('cat-note').textContent      = plan === 'free' ? 'Free plan: pick exactly one category.' : 'Pick any mix of 1–6 categories.';
   document.querySelectorAll('#cat-checkboxes input').forEach(cb => { cb.checked = false; cb.closest('.cat-cb').classList.remove('locked'); });
-  document.getElementById('payment-section').style.display = plan !== 'free' ? 'block' : 'none';
-  if (plan !== 'free') initStripe();
-  document.getElementById('su-error').style.display = 'none';
+  document.getElementById('su-error').style.display   = 'none';
   document.getElementById('su-success').style.display = 'none';
   document.getElementById('submit-btn').style.display = '';
   return false;
@@ -1185,22 +1165,30 @@ function handleCatCheck(cb) {
 }
 
 async function handleSignup() {
-  var name = document.getElementById('su-name').value.trim();
-  var email = document.getElementById('su-email').value.trim();
+  var name    = document.getElementById('su-name').value.trim();
+  var email   = document.getElementById('su-email').value.trim();
   var checked = Array.from(document.querySelectorAll('#cat-checkboxes input:checked')).map(c => c.value);
-  var errEl = document.getElementById('su-error');
-  var btn = document.getElementById('submit-btn');
-  errEl.style.display = 'none';
-  if (!name) { showSuError('Please enter your name.'); return; }
-  if (!email || !email.includes('@')) { showSuError('Please enter a valid email address.'); return; }
-  if (checked.length === 0) { showSuError('Please choose at least one category.'); return; }
-  if (currentPlan === 'free' && checked.length > 1) { showSuError('The free plan allows only one category — please pick your favourite.'); return; }
+  var btn     = document.getElementById('submit-btn');
+
+  document.getElementById('su-error').style.display = 'none';
+
+  if (!name)                                         { showSuError('Please enter your name.');                                                   return; }
+  if (!email || !email.includes('@'))                { showSuError('Please enter a valid email address.');                                       return; }
+  if (checked.length === 0)                          { showSuError('Please choose at least one category.');                                      return; }
+  if (currentPlan === 'free' && checked.length > 1) { showSuError('The free plan allows only one category — please pick your favourite.');      return; }
+
   btn.disabled = true;
   document.getElementById('submit-label').textContent = 'Setting things up…';
+
   try {
-    await sendToBeehiiv({ name, email, plan: currentPlan, categories: checked });
-    if (currentPlan !== 'free') { await handleStripePayment(name, email, checked); return; }
-    showSuSuccess('You\'re in! Your first briefing arrives tomorrow morning at 07:00 AM. Check your inbox for a confirmation.');
+    await subscribeToBeehiiv({ name, email, plan: currentPlan, categories: checked });
+
+    if (currentPlan === 'free') {
+      showSuSuccess('You\'re in! Your first briefing arrives tomorrow morning at 07:00 AM. Check your inbox for a confirmation.');
+    } else {
+      document.getElementById('submit-label').textContent = 'Redirecting to payment…';
+      window.location.href = PAYMENT_LINKS[currentPlan] + '?prefilled_email=' + encodeURIComponent(email);
+    }
   } catch(err) {
     showSuError(err.message || 'Something went wrong — please try again.');
     btn.disabled = false;
@@ -1208,63 +1196,59 @@ async function handleSignup() {
   }
 }
 
-async function handleStripePayment(name, email, categories) {
-  if (!stripe || !cardElement) {
-    showSuSuccess('Thanks! We\'ll follow up with a payment confirmation by email shortly.');
-    return;
-  }
-  var result = await stripe.createPaymentMethod({ type: 'card', card: cardElement, billing_details: { name, email } });
-  if (result.error) { throw new Error(result.error.message); }
-  var res = await fetch('/wp-json/roosters-crow/v1/subscribe', {
-    method: 'POST', headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ name, email, plan: currentPlan, categories, priceId: PRICE_IDS[currentPlan], paymentMethodId: result.paymentMethod.id })
+async function subscribeToBeehiiv({ name, email, plan, categories }) {
+  var res = await fetch('https://api.beehiiv.com/v2/publications/' + BEEHIIV_PUB_ID + '/subscriptions', {
+    method: 'POST',
+    headers: {
+      'Content-Type':  'application/json',
+      'Authorization': 'Bearer ' + BEEHIIV_API_KEY
+    },
+    body: JSON.stringify({
+      email:               email,
+      first_name:          name,
+      custom_fields:       [
+        { name: 'categories', value: categories.join(',') },
+        { name: 'plan',       value: plan }
+      ],
+      send_welcome_email:  true,
+      reactivate_existing: false
+    })
   });
   var data = await res.json();
-  if (data.error) throw new Error(data.error);
-  showSuSuccess('Subscribed! Your first full briefing lands tomorrow at 07:00 AM. Your receipt is on its way.');
-}
-
-async function sendToBeehiiv({ name, email, plan, categories }) {
-  try {
-    await fetch('/wp-json/roosters-crow/v1/beehiiv-subscribe', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email, plan, categories })
-    });
-  } catch(e) { /* non-critical */ }
+  if (!res.ok) throw new Error(data.message || 'Signup failed — please try again.');
+  return data;
 }
 
 function showSuError(msg) {
   var el = document.getElementById('su-error');
-  el.textContent = msg; el.style.display = 'block';
+  el.textContent = msg;
+  el.style.display = 'block';
   document.getElementById('submit-btn').disabled = false;
 }
 
 function showSuSuccess(msg) {
   var el = document.getElementById('su-success');
-  el.textContent = msg; el.style.display = 'block';
+  el.textContent = msg;
+  el.style.display = 'block';
   document.getElementById('submit-btn').style.display = 'none';
 }
 
 async function handleDeactivate() {
-  var email = document.getElementById('da-email').value.trim();
+  var email   = document.getElementById('da-email').value.trim();
   var confirm = document.getElementById('da-confirm').value.trim();
-  var errEl = document.getElementById('da-error');
-  var succEl = document.getElementById('da-success');
-  errEl.style.display = 'none'; succEl.style.display = 'none';
-  if (!email) { errEl.textContent = 'Please enter your email address.'; errEl.style.display = 'block'; return; }
+  var errEl   = document.getElementById('da-error');
+  var succEl  = document.getElementById('da-success');
+
+  errEl.style.display  = 'none';
+  succEl.style.display = 'none';
+
+  if (!email)                   { errEl.textContent = 'Please enter your email address.';           errEl.style.display = 'block'; return; }
   if (confirm !== 'DEACTIVATE') { errEl.textContent = 'Please type DEACTIVATE exactly to confirm.'; errEl.style.display = 'block'; return; }
-  try {
-    await fetch('/wp-json/roosters-crow/v1/deactivate', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email })
-    });
-    succEl.textContent = 'Done — your account has been deactivated and any active subscription cancelled. Sorry to see you go.';
-    succEl.style.display = 'block';
-    document.querySelector('#deactivate-modal .submit-btn').style.display = 'none';
-  } catch(e) {
-    errEl.textContent = 'Something went wrong. Please email us directly to close your account.';
-    errEl.style.display = 'block';
-  }
+
+  window.location.href = 'mailto:hello@roostersmail.com?subject=Deactivate%20my%20account&body=Please%20deactivate%20the%20account%20for%3A%20' + encodeURIComponent(email);
+  succEl.textContent   = 'Opening your email client… If it didn\'t open, email hello@roostersmail.com with your address and we\'ll close your account within 24 hours.';
+  succEl.style.display = 'block';
+  document.querySelector('#deactivate-modal .submit-btn').style.display = 'none';
 }
 </script>
 </body>
