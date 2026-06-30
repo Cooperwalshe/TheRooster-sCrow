@@ -1211,6 +1211,7 @@ async function subscribeToBeehiiv({ name, email, plan, categories }) {
     })
   });
   var data = await res.json();
+  console.log('Beehiiv response:', res.status, JSON.stringify(data));
   if (!res.ok) throw new Error(data.message || 'Signup failed — please try again.');
   return data;
 }
