@@ -439,7 +439,7 @@ footer { background: var(--ink); color: rgba(253,248,240,0.55); padding: 56px 24
       <a href="#" onclick="showPage('example'); return false;" id="nav-example">See an example</a>
       <a href="#" onclick="showPage('pricing'); return false;" id="nav-pricing">Pricing</a>
       <a href="#" onclick="showPage('about'); return false;" id="nav-about">About</a>
-      <a href="#" class="btn-nav" onclick="openSignup('free'); return false;">Start free</a>
+      <a href="#" class="btn-nav" onclick="showPage('pricing'); return false;">Start free</a>
     </div>
     <button class="hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -450,7 +450,7 @@ footer { background: var(--ink); color: rgba(253,248,240,0.55); padding: 56px 24
     <a href="#" onclick="showPage('example'); return false;">See an example</a>
     <a href="#" onclick="showPage('pricing'); return false;">Pricing</a>
     <a href="#" onclick="showPage('about'); return false;">About</a>
-    <a href="#" class="btn-nav-mobile" onclick="openSignup('free'); return false;">Start free</a>
+    <a href="#" class="btn-nav-mobile" onclick="showPage('pricing'); return false;">Start free</a>
   </div>
 </nav>
 
@@ -463,7 +463,7 @@ footer { background: var(--ink); color: rgba(253,248,240,0.55); padding: 56px 24
       <h1>Good morning.<br>Here's what <em>you</em> care about.</h1>
       <p class="hero-sub">The Rooster's Crow is a friendly morning email that covers the news you actually want to read — markets, sports, science, politics, culture, business — whichever topics are yours. No scrolling required.</p>
       <div class="hero-cta-row">
-        <a href="#" class="btn-primary" onclick="showPage('pricing'); return false;">Get my Daily Briefing</a>
+        <a href="#" class="btn-primary" onclick="showPage('pricing'); return false;">Start reading free</a>
         <a href="#" class="btn-outline" onclick="showPage('example'); return false;">See a sample →</a>
       </div>
       <p class="hero-tagline">
@@ -558,7 +558,7 @@ footer { background: var(--ink); color: rgba(253,248,240,0.55); padding: 56px 24
             <span>🐓</span>
             <span>The Rooster's Crow &lt;hello@roostersmail.com&gt;</span>
           </div>
-          <div class="mp-subject">Your morning briefing — Tuesday, July 1</div>
+          <div class="mp-subject">Your morning briefing — Monday, June 30</div>
           <div style="border-top: 1px solid var(--rule); margin: 12px 0;"></div>
           <span class="mp-tag politics">🏛️ Politics</span>
           <p class="mp-body">The House passed the revised infrastructure bill 218–210 along largely party lines. President's signature is expected by end of week. Broadband expansion provisions take effect in January…</p>
@@ -575,7 +575,7 @@ footer { background: var(--ink); color: rgba(253,248,240,0.55); padding: 56px 24
     <div class="section-inner">
       <h2 class="section-title">Start tomorrow morning.</h2>
       <p>One category, completely free. See how it feels to start the day already knowing what happened.</p>
-      <a href="#" class="btn-primary" style="font-size: 16px; padding: 16px 40px;" onclick="showPage('pricing'); return false;">Get my Daily Briefing</a>
+      <a href="#" class="btn-primary" style="font-size: 16px; padding: 16px 40px;" onclick="showPage('pricing'); return false;">Start reading free</a>
       <p style="font-size: 13px; color: rgba(253,248,240,0.4); margin-top: 16px; margin-bottom: 0;">No credit card · Unsubscribe any time · <a href="#" onclick="showPage('pricing'); return false;" style="color: rgba(253,248,240,0.45);">See all plans</a></p>
     </div>
   </div>
@@ -591,7 +591,7 @@ footer { background: var(--ink); color: rgba(253,248,240,0.55); padding: 56px 24
       <h1 class="section-title">What lands in your inbox every morning.</h1>
       <p style="font-family: var(--sans); font-size: 16px; color: var(--ink-3); line-height: 1.7; max-width: 520px;">This is a full six-category edition — what subscribers on an all-categories plan receive. Free and single-category subscribers see just their chosen section.</p>
       <div style="margin-top: 24px; display: flex; gap: 12px; flex-wrap: wrap;">
-        <a href="#" class="btn-primary" onclick="showPage('pricing'); return false;">Get my Daily Briefing</a>
+        <a href="#" class="btn-primary" onclick="showPage('pricing'); return false;">Start reading free</a>
         <a href="#" class="btn-outline" onclick="showPage('pricing'); return false;">See pricing →</a>
       </div>
     </div>
@@ -612,18 +612,18 @@ footer { background: var(--ink); color: rgba(253,248,240,0.55); padding: 56px 24
           </div>
           <div class="email-chrome-row">
             <span class="email-chrome-label">Subject</span>
-            <span class="email-chrome-val email-chrome-subject">🐓 Your morning briefing — Tuesday, July 1</span>
+            <span class="email-chrome-val email-chrome-subject">🐓 Your morning briefing — Monday, June 30</span>
           </div>
           <div class="email-chrome-row">
             <span class="email-chrome-label">Date</span>
-            <span class="email-chrome-val">Tue, Jul 1, 2026 · 7:00 AM</span>
+            <span class="email-chrome-val">Mon, Jun 30, 2026 · 7:00 AM</span>
           </div>
         </div>
 
         <div class="email-body">
           <div class="em-header">
             <div class="em-masthead">🐓 The<span class="red"> Rooster's</span> Crow</div>
-            <div class="em-date">Tuesday, July 1, 2026</div>
+            <div class="em-date">Monday, June 30, 2026</div>
             <div class="em-delivery">Your daily briefing · All six categories · Delivered at 7:00 AM</div>
           </div>
 
@@ -633,80 +633,80 @@ footer { background: var(--ink); color: rgba(253,248,240,0.55); padding: 56px 24
             <!-- POLITICS -->
             <div class="em-section">
               <span class="em-section-tag tag-politics">🏛️ Politics</span>
-              <h2 class="em-headline">House passes infrastructure bill 218–210; presidential signature expected by Friday</h2>
-              <p class="em-text">The House passed the $940 billion infrastructure and clean energy bill Monday evening in a narrower-than-expected 218–210 vote, with four Republicans crossing the aisle to join Democrats. The bill now heads to the President's desk after the Senate's 61–38 passage last week. A signing ceremony is expected Thursday or Friday.</p>
-              <p class="em-text">The final version includes $110 billion for roads and bridges, $65 billion for broadband expansion, and $47 billion for climate resilience — a number that drew the most Republican opposition in the final floor debate.</p>
+              <h2 class="em-headline">Senate passes revised budget reconciliation bill 51–49 after all-night session</h2>
+              <p class="em-text">The Senate passed a revised $1.1 trillion budget reconciliation package early Sunday morning after 22 hours of debate and a last-minute amendment on Medicaid funding that secured the final two holdout votes. The bill now moves to conference with the House, which passed its own version last Tuesday. Leadership from both chambers says they aim to resolve differences before the August recess.</p>
+              <p class="em-text">The legislation includes $180 billion in new defence spending, expanded child tax credits through 2030, and contested provisions rolling back several EPA regulations. Vice President cast the tie-breaking procedural vote that kept debate moving Friday evening.</p>
               <ul class="em-bullets">
-                <li>UK Prime Minister Starmer announced early general elections for September 18, citing a need for a "fresh mandate" on economic policy</li>
-                <li>The Supreme Court issued a 6–3 ruling limiting federal agency rulemaking authority in environmental cases; decision takes effect immediately</li>
-                <li>France and Germany reached a joint position on AI regulation ahead of next week's G7 summit in Tokyo</li>
+                <li>President signed an executive order Friday directing federal agencies to cut permitting timelines for domestic semiconductor manufacturing from 4 years to 18 months</li>
+                <li>NATO defence ministers met in Brussels Thursday; alliance agreed to raise baseline spending target to 2.5% of GDP</li>
+                <li>A federal judge in Texas blocked new DHS border enforcement rules, issuing a preliminary injunction that takes immediate effect pending appeal</li>
               </ul>
             </div>
 
             <!-- MARKETS -->
             <div class="em-section">
               <span class="em-section-tag tag-markets">📈 Markets</span>
-              <h2 class="em-headline">Stocks close Q2 at record highs; S&P up 14.2% for the quarter</h2>
-              <p class="em-text">US equities wrapped up their best quarter in three years Monday, with the S&P 500 gaining 14.2% over the April–June period driven by stronger-than-expected earnings, cooling inflation, and renewed optimism around AI-related capital spending. The index closed at 5,847, a new all-time high.</p>
-              <p class="em-text">The Fed's next meeting is July 29–30. Markets are pricing in a 62% chance of a rate cut, up from 41% a month ago. Thursday's non-farm payrolls report will be closely watched — consensus is 195,000 jobs added.</p>
+              <h2 class="em-headline">S&P 500 on pace for best quarter since 2023; Fed minutes signal no rush on cuts</h2>
+              <p class="em-text">US stocks are heading into Q2's final session near all-time highs, with the S&P 500 up 13.8% over the quarter after Friday's 0.6% gain. The rally has been driven by better-than-expected earnings, cooling core inflation (PCE came in at 2.3% last Wednesday), and easing fears of a hard landing.</p>
+              <p class="em-text">Fed minutes released Thursday showed officials are "broadly comfortable" holding rates steady through summer but flagged a potential cut if labour market data softens materially. Markets are pricing in a 58% chance of a September cut, up from 34% three weeks ago.</p>
               <ul class="em-bullets">
-                <li><strong>S&P 500:</strong> 5,847 (+0.4%) · <strong>Nasdaq:</strong> +0.6% · <strong>Dow:</strong> +0.2%</li>
-                <li><strong>10-year Treasury yield:</strong> 4.21% (down 4bps)</li>
-                <li><strong>Brent crude:</strong> $83.40, up 1.1% on OPEC+ production cut signals</li>
-                <li><strong>USD/EUR:</strong> 1.081 · <strong>Bitcoin:</strong> $71,200, up 3.4%</li>
+                <li><strong>S&P 500:</strong> 5,812 (+0.6% Fri) · <strong>Nasdaq:</strong> +0.9% · <strong>Dow:</strong> +0.3%</li>
+                <li><strong>10-year Treasury:</strong> 4.26%, down 8bps on the week</li>
+                <li><strong>Brent crude:</strong> $81.90 — OPEC+ held output steady at Thursday's Vienna meeting</li>
+                <li><strong>Bitcoin:</strong> $68,400 after pulling back from $72K mid-week</li>
               </ul>
-              <p class="em-text"><strong>Worth watching:</strong> Q2 earnings season begins next week. JPMorgan and Wells Fargo report Friday July 11 — their guidance on consumer credit will set the tone for the sector.</p>
+              <p class="em-text"><strong>This week:</strong> ISM Manufacturing (today), JOLTS (Wednesday), and the June jobs report Friday. Consensus is 178,000 jobs added; a miss could reprice rate-cut expectations quickly.</p>
             </div>
 
             <!-- SPORTS -->
             <div class="em-section">
               <span class="em-section-tag tag-sports">🏆 Sports</span>
-              <h2 class="em-headline">Celtics win NBA Finals in 6; Argentina beats Uruguay in Copa América semis</h2>
-              <p class="em-text">The Boston Celtics are NBA champions for the eighteenth time, defeating the Oklahoma City Thunder 104–91 in Game 6 Monday night at TD Garden. Jaylen Brown was named Finals MVP with 26 points per game across the series. It is head coach Joe Mazzulla's first championship.</p>
-              <p class="em-text">In Copa América, Argentina defeated Uruguay 2–1 in extra time in a tense semifinal in Miami. Lionel Messi scored the winner in the 104th minute on a free kick. Argentina faces Brazil in Saturday's final in Los Angeles.</p>
+              <h2 class="em-headline">NBA Finals tied 3–3 heading into Game 7 tonight; Wimbledon draw set</h2>
+              <p class="em-text">The Oklahoma City Thunder staved off elimination Friday, beating the Boston Celtics 108–99 in Game 6 to force a deciding Game 7 tonight at TD Garden (8:30 PM ET, ABC). SGA finished with 38 points and 9 assists. Jaylen Brown has been quietly dealing with a left knee bruise and was limited to 29 minutes — his availability and workload tonight will be the story heading into tip-off.</p>
+              <p class="em-text">Wimbledon begins today at the All England Club. Defending champion Carlos Alcaraz and world number one Jannik Sinner are on opposite halves of the draw and are projected to meet in the final on July 13, pending results.</p>
               <ul class="em-bullets">
-                <li><strong>MLB:</strong> Shohei Ohtani hit his 30th home run of the season; Dodgers lead the NL West by 7.5 games</li>
-                <li><strong>Wimbledon:</strong> Quarterfinals set — Alcaraz vs. Sinner is the marquee matchup Wednesday</li>
-                <li><strong>Tour de France:</strong> Stage 1 kicks off today in Lille; Tadej Pogačar is the heavy favourite</li>
+                <li><strong>MLB weekend:</strong> Yankees swept the Red Sox in three games; Aaron Judge hit his 27th and 28th home runs Saturday</li>
+                <li><strong>Copa América semis:</strong> Argentina vs. Canada (Wednesday) and Uruguay vs. Colombia (Thursday) — finals Saturday in New Jersey</li>
+                <li><strong>Tour de France</strong> starts Saturday in Bilbao; Tadej Pogačar and Jonas Vingegaard lead the pre-race favourites list</li>
               </ul>
             </div>
 
             <!-- BUSINESS -->
             <div class="em-section">
               <span class="em-section-tag tag-business">🏢 Business</span>
-              <h2 class="em-headline">Microsoft acquires enterprise AI firm Inflection Pro for $3.8B; Tesla deliveries beat Q2 estimates</h2>
-              <p class="em-text">Microsoft confirmed Monday it has acquired Inflection Pro, an enterprise AI assistant platform used by over 4,000 companies globally, for $3.8 billion in cash. The deal is Microsoft's largest since its Activision purchase and is expected to close by October pending regulatory review. Inflection Pro's technology will be integrated into Microsoft 365 Copilot.</p>
-              <p class="em-text">Tesla reported Q2 deliveries of 468,000 vehicles, beating analyst estimates of 441,000 and reversing three straight quarters of year-on-year declines. Shares rose 8% in after-hours trading. CEO Elon Musk credited lower financing rates and the launch of the refreshed Model Y.</p>
+              <h2 class="em-headline">Apple acquires AI search startup Perplexity for $2.4B; Nike posts surprise revenue beat</h2>
+              <p class="em-text">Apple confirmed Friday it has acquired AI-powered search startup Perplexity for approximately $2.4 billion in an all-cash deal. The acquisition is Apple's largest since its Beats purchase in 2014 and signals an aggressive push into AI-native search for iOS and Safari. Integration is expected to begin with iOS 21 next year; the Perplexity app will remain available on Android through at least 2027.</p>
+              <p class="em-text">Nike reported fiscal Q4 results Thursday that topped expectations on both revenue ($13.1B vs. $12.7B estimated) and earnings per share ($0.72 vs. $0.64). CEO Elliott Hill credited a renewed focus on performance products and a pullback from heavy discounting. Shares jumped 11% in after-hours trading — the largest single-day gain since 2020.</p>
               <ul class="em-bullets">
-                <li>Apple's Vision Pro 2 went on sale in 14 additional countries today; pre-orders sold out within 90 minutes in most markets</li>
-                <li>The FTC formally approved Meta's acquisition of virtual reality startup Horizon Systems after an 18-month review</li>
-                <li>Airbnb raised its full-year revenue guidance by 6% after a stronger-than-expected summer booking season</li>
+                <li>Amazon announced it is acquiring a 20% stake in satellite broadband provider AST SpaceMobile for $2.1B, expanding its logistics and connectivity ambitions</li>
+                <li>Volkswagen said it will close two EV battery plants in Germany and shift production to lower-cost facilities in Poland and Spain</li>
+                <li>The FTC filed an antitrust complaint against three major pharmacy benefit managers — CVS Caremark, Express Scripts, and OptumRx — alleging anti-competitive drug pricing practices</li>
               </ul>
             </div>
 
             <!-- SCIENCE -->
             <div class="em-section">
               <span class="em-section-tag tag-science">🔬 Science</span>
-              <h2 class="em-headline">Oxford malaria vaccine shows 78% efficacy in Phase 3 trial; ESA launches Europa orbiter</h2>
-              <p class="em-text">Oxford University and the Serum Institute of India announced Monday that their R21/Matrix-M malaria vaccine demonstrated 78% efficacy across a 28,000-person Phase 3 trial in sub-Saharan Africa — the highest ever recorded for a malaria vaccine. The WHO is expected to fast-track its prequalification review, which could allow rollout to high-burden countries by mid-2027.</p>
-              <p class="em-text">The European Space Agency successfully launched its JUICE (Jupiter Icy Moons Explorer) Europa module early Monday morning from the Guiana Space Centre. The spacecraft will take approximately eight years to reach Europa, where it will search for signs of liquid water beneath the moon's ice shell.</p>
+              <h2 class="em-headline">Scientists confirm first room-temperature superconductor at ambient pressure; NIH approves gene therapy for sickle cell</h2>
+              <p class="em-text">Researchers at the University of Rochester published peer-reviewed results Thursday in <em>Nature</em> confirming a hydrogen-rich compound that superconducts at 22°C under standard atmospheric pressure — the long-sought "holy grail" of condensed matter physics. Independent labs in South Korea and Germany have already begun attempts to replicate the findings. If confirmed, the material could eventually transform power transmission, MRI machines, and quantum computing.</p>
+              <p class="em-text">The NIH approved a new CRISPR-based gene therapy for sickle cell disease last Wednesday that works differently from the two treatments already on the market — it targets the disease's root genetic cause rather than increasing fetal haemoglobin. In trial data, 94% of participants were symptom-free at 18 months. Manufacturer expects US launch pricing around $2.1 million per patient.</p>
               <ul class="em-bullets">
-                <li>A Stanford study found a new class of antibiotics effective against drug-resistant tuberculosis in early-stage trials, the first meaningful TB breakthrough in two decades</li>
-                <li>NOAA confirmed June 2026 as the hottest June on record globally, at 1.6°C above the pre-industrial baseline</li>
-                <li>Researchers at MIT published a method for recycling lithium-ion batteries that recovers 96% of lithium at a fraction of current costs</li>
+                <li>NASA's Artemis III moon landing has been pushed to no earlier than September 2027 after a SpaceX Starship test flight anomaly last Tuesday</li>
+                <li>A new study in <em>The Lancet</em> found daily low-dose aspirin reduces colorectal cancer risk by 22% in adults over 50 — prompting calls to revisit prevention guidelines</li>
+                <li>NOAA reported that global average CO₂ concentration crossed 430 ppm for the first time last week, up from 421 ppm this time last year</li>
               </ul>
             </div>
 
             <!-- CULTURE -->
             <div class="em-section">
               <span class="em-section-tag tag-culture">🎭 Culture</span>
-              <h2 class="em-headline">Beyoncé's "Cowboy Carter" film tops Netflix; Pulitzer Prize for Fiction announced</h2>
-              <p class="em-text">The concert film adaptation of Beyoncé's "Cowboy Carter" album debuted on Netflix Monday and immediately became the platform's most-watched music special ever, drawing 34 million views in its first 24 hours. Shot over three nights in Houston, the film is directed by Beyoncé herself and runs two hours and eighteen minutes.</p>
-              <p class="em-text">The Pulitzer Prize for Fiction was awarded Monday to Percival Everett for "James," his reimagining of Adventures of Huckleberry Finn from the perspective of Jim. Everett, who also won the Booker Prize for the novel last year, called it "a story about who gets to tell history."</p>
+              <h2 class="em-headline">Kendrick Lamar's "GNX" tour opens to sold-out stadiums; "F1" film sets opening weekend record</h2>
+              <p class="em-text">Kendrick Lamar opened the North American leg of the GNX World Tour Friday night at SoFi Stadium in Los Angeles to 70,000 fans. Reviews called it "the most technically ambitious stadium show in years," noting a 40-minute centrepiece act built around the <em>To Pimp a Butterfly</em> album. The tour runs through October with 52 dates across North America and Europe.</p>
+              <p class="em-text">Apple Original Films' <em>F1</em>, starring Brad Pitt as a retired driver pulled back into the sport, opened to $97 million domestically over the weekend — the biggest non-franchise, non-superhero opening since <em>Top Gun: Maverick</em>. The film was shot using real Formula 1 race weekends as a backdrop over two seasons, lending it an authenticity critics called "genuinely startling."</p>
               <ul class="em-bullets">
-                <li><strong>Film:</strong> "Twisters 2" opened to $89M domestically, the biggest July 4th weekend opener since 2019</li>
-                <li><strong>TV:</strong> HBO's "The White Lotus" Season 3 premieres Sunday; set in South Korea</li>
-                <li><strong>Music:</strong> Taylor Swift's "Eras Tour" final leg begins in Dublin this weekend; 14 dates across Europe through August</li>
+                <li><strong>Books:</strong> Colson Whitehead's new novel <em>Crook Manifesto</em> sequel debuted at #1 on the NYT bestseller list in its first week</li>
+                <li><strong>TV:</strong> HBO renewed <em>The Last of Us</em> for a third season before Season 2 has even finished airing; finale is next Sunday</li>
+                <li><strong>Art:</strong> A previously unknown Frida Kahlo self-portrait sold at Sotheby's New York for $47.3M Thursday — a record for a Latin American artist</li>
               </ul>
             </div>
 
@@ -724,7 +724,7 @@ footer { background: var(--ink); color: rgba(253,248,240,0.55); padding: 56px 24
       <div style="margin-top: 40px; background: var(--rooster-light); border: 1.5px solid #f4b8b0; border-radius: 12px; padding: 28px; text-align: center;">
         <p style="font-family: var(--serif); font-size: 20px; color: var(--ink); margin-bottom: 8px;">Want this in your inbox?</p>
         <p style="font-family: var(--sans); font-size: 14px; color: var(--ink-3); margin-bottom: 20px;">Start free with one category. Upgrade to all six any time.</p>
-        <a href="#" class="btn-primary" onclick="showPage('pricing'); return false;">Get my Daily Briefing</a>
+        <a href="#" class="btn-primary" onclick="showPage('pricing'); return false;">Start reading free</a>
       </div>
 
     </div>
@@ -854,7 +854,7 @@ footer { background: var(--ink); color: rgba(253,248,240,0.55); padding: 56px 24
       <div style="background: var(--cream-2); border: 1.5px solid var(--rule); border-radius: 16px; padding: 48px; text-align: center;">
         <h2 class="section-title" style="margin-bottom: 12px;">Read it tomorrow morning.</h2>
         <p style="font-family: var(--sans); font-size: 16px; color: var(--ink-3); margin-bottom: 28px; max-width: 440px; margin-left: auto; margin-right: auto;">Start with one category, free. See if a five-minute email beats forty-five minutes of scrolling.</p>
-        <a href="#" class="btn-primary" onclick="showPage('pricing'); return false;">Get my Daily Briefing</a>
+        <a href="#" class="btn-primary" onclick="showPage('pricing'); return false;">Start reading free</a>
       </div>
 
     </div>
@@ -1004,7 +1004,7 @@ footer { background: var(--ink); color: rgba(253,248,240,0.55); padding: 56px 24
     </div>
     <div class="footer-col">
       <h4>Account</h4>
-      <a href="#" onclick="openSignup('free'); return false;">Start free</a>
+      <a href="#" onclick="showPage('pricing'); return false;">Start free</a>
       <a href="#" onclick="openSignup('monthly'); return false;">Go ad-free</a>
       <a href="#" onclick="openDeactivate(); return false;">Deactivate</a>
     </div>
